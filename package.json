@@ -12,14 +12,18 @@
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
   },
   "dependencies": {
+    "@3rdweb/hooks": "^1.6.0",
+    "@3rdweb/react": "^1.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "serve": "^13.0.2"
+    "serve": "^13.0.2",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.7",
     "@babel/core": "^7.16.7",
     "@babel/plugin-transform-runtime": "^7.16.7",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.16.7",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
