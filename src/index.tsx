@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
+import { ChakraProvider } from '@chakra-ui/react';
 import { ThirdwebProvider } from '@3rdweb/react';
 import { ConnectorOptions } from '@3rdweb/hooks';
 
@@ -14,7 +14,9 @@ const connectors: Partial<ConnectorOptions> = {
 ReactDOM.render(
   <React.StrictMode>
     <ThirdwebProvider connectors={connectors} supportedChainIds={supportedChainIds}>
-      <App />
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
     </ThirdwebProvider>
   </React.StrictMode>,
   document.getElementById('root'),

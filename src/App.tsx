@@ -1,6 +1,9 @@
 import { ConnectWallet } from '@3rdweb/react';
-import './App.css';
+import { Center } from '@chakra-ui/react';
 
-const App = () => <ConnectWallet />;
-
+const App = () => (
+  <Center bgGradient="linear(to-r, #1A2980, #26D0CE)" h="100vh" color="white">
+    <ConnectWallet size="lg" colorScheme="blackAlpha" />
+  </Center>
+);
 export default App;
