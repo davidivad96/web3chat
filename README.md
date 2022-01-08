@@ -1,12 +1,10 @@
-# React Boilerplate
+# web3chat
 
-Basic boilerplate for React with TypeScript. It comes configured with Webpack as the bundler, Babel to transpile modern JavaScript, and ESLint and Prettier to format and clean code.
+Chat app that uses some [thirdweb](https://thirdweb.com) modules to add web3 capabilities such as:
 
-## Why not use `create-react-app`?
-
-- `create-react-app` adds so much code that maybe you don't need.
-- If you want more flexibility or dig deeper into Webpack or Babel configuration, `create-react-app` is not the best option. You could eject the app, but still you would have a lot of stuff you probably don't need.
-- This boilerplate is more suitable for my needs and preferences as programmer :)
+- Token minting.
+- Token transfer between accounts.
+- Connect a crypto wallet.
 
 ## How to run
 
