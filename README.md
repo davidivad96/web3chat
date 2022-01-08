@@ -1,4 +1,4 @@
-# web3chat
+# Web3Chat
 
 Chat app that uses some [thirdweb](https://thirdweb.com) modules to add web3 capabilities such as:
 
