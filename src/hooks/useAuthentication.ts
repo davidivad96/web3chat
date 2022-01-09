@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useWeb3 } from '@3rdweb/hooks';
 
-const useAuthentication = () => {
+interface ReturnValue {
+  isLoading: boolean;
+  isLoggedIn: boolean;
+}
+
+const useAuthentication = (): ReturnValue => {
   const [isLoading, setIsLoading] = useState(true);
   const { address, balance } = useWeb3();
 

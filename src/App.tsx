@@ -3,7 +3,7 @@ import { Box, Center } from '@chakra-ui/react';
 import PuffLoader from 'react-spinners/PuffLoader';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
-import Trivia from './pages/Trivia';
+import Quiz from './pages/Quiz';
 import useAuthentication from './hooks/useAuthentication';
 import { LoggedRoute, NonLoggedRoute } from './components/Route';
 
@@ -35,10 +35,10 @@ const App: React.FunctionComponent = () => {
             }
           />
           <Route
-            path="/trivia"
+            path="/quiz"
             element={
               <LoggedRoute isLoggedIn={isLoggedIn}>
-                <Trivia />
+                <Quiz />
               </LoggedRoute>
             }
           />
