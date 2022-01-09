@@ -46,7 +46,15 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
           <Image src={page === 'quiz' ? QuizLogo : ChatLogo} width={50} />
           <HStack as="nav" spacing={4} display={{ base: 'none', sm: 'flex' }}>
             {Links.map((link) => (
-              <Button key={link.title} as={ReachLink} to={link.to} variant="solid" bg="#1E619A" color="white">
+              <Button
+                key={link.title}
+                as={ReachLink}
+                to={link.to}
+                variant="solid"
+                bg="#1E619A"
+                color="white"
+                _hover={{ opacity: 0.5 }}
+              >
                 {link.title}
               </Button>
             ))}
@@ -75,7 +83,15 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
         <Box py={4} display={{ md: 'none' }}>
           <Stack spacing={4}>
             {Links.map((link) => (
-              <Button key={link.title} as={ReachLink} to={link.to} variant="solid" bg="#1E619A" color="white">
+              <Button
+                key={link.title}
+                as={ReachLink}
+                to={link.to}
+                variant="solid"
+                bg="#1E619A"
+                color="white"
+                _hover={{ opacity: 0.5 }}
+              >
                 {link.title}
               </Button>
             ))}
