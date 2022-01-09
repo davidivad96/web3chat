@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "web3chat",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/david/Desktop/web3chat/amplify/backend/api/web3chat/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}

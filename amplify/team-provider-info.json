@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-web3chat-dev-165945-authRole",
-      "UnauthRoleArn": "arn:aws:iam::682507345650:role/amplify-web3chat-dev-165945-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::682507345650:role/amplify-web3chat-dev-165945-authRole",
+      "AuthRoleName": "amplify-web3chat-dev-180746-authRole",
+      "UnauthRoleArn": "arn:aws:iam::682507345650:role/amplify-web3chat-dev-180746-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::682507345650:role/amplify-web3chat-dev-180746-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-web3chat-dev-165945-deployment",
-      "UnauthRoleName": "amplify-web3chat-dev-165945-unauthRole",
-      "StackName": "amplify-web3chat-dev-165945",
-      "StackId": "arn:aws:cloudformation:eu-west-1:682507345650:stack/amplify-web3chat-dev-165945/2c5b9dc0-7165-11ec-89b3-0a12a33b0c91",
-      "AmplifyAppId": "de4vk2q2j0vf1"
+      "DeploymentBucketName": "amplify-web3chat-dev-180746-deployment",
+      "UnauthRoleName": "amplify-web3chat-dev-180746-unauthRole",
+      "StackName": "amplify-web3chat-dev-180746",
+      "StackId": "arn:aws:cloudformation:eu-west-1:682507345650:stack/amplify-web3chat-dev-180746/acc92f50-716e-11ec-b3b7-0add85425d05",
+      "AmplifyAppId": "d3efkjh0y0qmkg"
     }
   }
 }

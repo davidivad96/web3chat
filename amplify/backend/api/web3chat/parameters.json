@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "web3chat",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}
