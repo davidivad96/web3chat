@@ -6,10 +6,10 @@ const useAuthentication = () => {
   const { address } = useWeb3();
 
   useEffect(() => {
-    if (address) {
-      setTimeout(() => setIsLoading(false), 1000);
-    }
-  }, [address]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+  }, []);
 
   return {
     isLoading,

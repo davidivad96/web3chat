@@ -13,7 +13,7 @@ const App: React.FunctionComponent = () => {
   return (
     <Box bgGradient="linear(to-r, #1A2980, #26D0CE)" h="100vh">
       {isLoading ? (
-        <Center h="100%">
+        <Center h="full">
           <PuffLoader loading size={280} color="#1A2980" />
         </Center>
       ) : (
