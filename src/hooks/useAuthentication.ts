@@ -3,13 +3,15 @@ import { useWeb3 } from '@3rdweb/hooks';
 
 const useAuthentication = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { address } = useWeb3();
+  const { address, balance } = useWeb3();
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, []);
+    if (balance?.formatted) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+    }
+  }, [balance?.formatted]);
 
   return {
     isLoading,
