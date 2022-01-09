@@ -12,7 +12,7 @@ In the project directory, execute the following command to start a development s
 
 `yarn start`
 
-If you want to serve an optimized production build, just run:
+If you want to serve an optimized production build, run:
 
 `yarn build && yarn serve`
 
