@@ -9,7 +9,6 @@ import {
   Image,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Stack,
@@ -40,12 +39,12 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
           size="md"
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
           aria-label="Open Menu"
-          display={{ md: 'none' }}
+          display={{ sm: 'none' }}
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems="center">
           <Image src={page === 'quiz' ? QuizLogo : ChatLogo} width={50} />
-          <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
+          <HStack as="nav" spacing={4} display={{ base: 'none', sm: 'flex' }}>
             {Links.map((link) => (
               <Button key={link.title} as={ReachLink} to={link.to} variant="solid" bg="#1E619A" color="white">
                 {link.title}
@@ -54,7 +53,7 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
           </HStack>
         </HStack>
         <Flex alignItems="center">
-          <ConnectWallet size="xs" />
+          <ConnectWallet display={{ base: 'none', md: 'flex' }} />
           <Menu>
             <MenuButton rounded="full" variant="link" cursor="pointer" pl="5">
               <Avatar
@@ -64,11 +63,10 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
                 }
               />
             </MenuButton>
-            <MenuList>
-              <MenuItem>Link 1</MenuItem>
-              <MenuItem>Link 2</MenuItem>
-              <MenuDivider />
-              <MenuItem>Link 3</MenuItem>
+            <MenuList display={{ md: 'none' }}>
+              <MenuItem>
+                <ConnectWallet />
+              </MenuItem>
             </MenuList>
           </Menu>
         </Flex>
