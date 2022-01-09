@@ -12,26 +12,9 @@ export const createAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -49,26 +32,9 @@ export const updateAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -86,26 +52,9 @@ export const deleteAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -121,26 +70,9 @@ export const createConversation = /* GraphQL */ `
     createConversation(input: $input, condition: $condition) {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -156,26 +88,9 @@ export const updateConversation = /* GraphQL */ `
     updateConversation(input: $input, condition: $condition) {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -191,26 +106,9 @@ export const deleteConversation = /* GraphQL */ `
     deleteConversation(input: $input, condition: $condition) {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -232,23 +130,11 @@ export const createMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -273,23 +159,11 @@ export const updateMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -314,23 +188,11 @@ export const deleteMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -354,23 +216,11 @@ export const createAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -392,23 +242,11 @@ export const updateAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -430,23 +268,11 @@ export const deleteAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }

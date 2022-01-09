@@ -9,7 +9,6 @@ export type CreateAccountInput = {
 };
 
 export type ModelAccountConditionInput = {
-  address?: ModelStringInput | null,
   avatarUrl?: ModelStringInput | null,
   and?: Array< ModelAccountConditionInput | null > | null,
   or?: Array< ModelAccountConditionInput | null > | null,
@@ -114,13 +113,13 @@ export type Message = {
 };
 
 export type UpdateAccountInput = {
-  id: string,
-  address?: string | null,
+  id?: string | null,
+  address: string,
   avatarUrl?: string | null,
 };
 
 export type DeleteAccountInput = {
-  id: string,
+  address: string,
 };
 
 export type CreateConversationInput = {
@@ -216,12 +215,18 @@ export type DeleteAccountConversationInput = {
 
 export type ModelAccountFilterInput = {
   id?: ModelIDInput | null,
-  address?: ModelStringInput | null,
+  address?: ModelIDInput | null,
   avatarUrl?: ModelStringInput | null,
   and?: Array< ModelAccountFilterInput | null > | null,
   or?: Array< ModelAccountFilterInput | null > | null,
   not?: ModelAccountFilterInput | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelAccountConnection = {
   __typename: "ModelAccountConnection",
@@ -276,29 +281,10 @@ export type CreateAccountMutation = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -319,29 +305,10 @@ export type UpdateAccountMutation = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -362,29 +329,10 @@ export type DeleteAccountMutation = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -403,29 +351,10 @@ export type CreateConversationMutation = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -444,29 +373,10 @@ export type UpdateConversationMutation = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -485,29 +395,10 @@ export type DeleteConversationMutation = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -532,28 +423,12 @@ export type CreateMessageMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -581,28 +456,12 @@ export type UpdateMessageMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -630,28 +489,12 @@ export type DeleteMessageMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -678,28 +521,12 @@ export type CreateAccountConversationMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -724,28 +551,12 @@ export type UpdateAccountConversationMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -770,28 +581,12 @@ export type DeleteAccountConversationMutation = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -801,7 +596,7 @@ export type DeleteAccountConversationMutation = {
 };
 
 export type GetAccountQueryVariables = {
-  id: string,
+  address: string,
 };
 
 export type GetAccountQuery = {
@@ -812,29 +607,10 @@ export type GetAccountQuery = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -843,9 +619,11 @@ export type GetAccountQuery = {
 };
 
 export type ListAccountsQueryVariables = {
+  address?: string | null,
   filter?: ModelAccountFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListAccountsQuery = {
@@ -856,14 +634,6 @@ export type ListAccountsQuery = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -881,29 +651,10 @@ export type GetConversationQuery = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -923,14 +674,6 @@ export type ListConversationsQuery = {
     items:  Array< {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -954,28 +697,12 @@ export type GetMessageQuery = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1001,20 +728,6 @@ export type ListMessagesQuery = {
       content: string,
       accountID: string,
       conversationID: string,
-      account?:  {
-        __typename: "Account",
-        id: string,
-        address: string,
-        avatarUrl: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      conversation?:  {
-        __typename: "Conversation",
-        id: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
       createdAt: string,
       updatedAt: string,
       accountMessagesId?: string | null,
@@ -1039,28 +752,12 @@ export type GetAccountConversationQuery = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1083,20 +780,6 @@ export type ListAccountConversationsQuery = {
       id: string,
       accountID: string,
       conversationID: string,
-      account:  {
-        __typename: "Account",
-        id: string,
-        address: string,
-        avatarUrl: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      conversation:  {
-        __typename: "Conversation",
-        id: string,
-        createdAt: string,
-        updatedAt: string,
-      },
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1112,29 +795,10 @@ export type OnCreateAccountSubscription = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1150,29 +814,10 @@ export type OnUpdateAccountSubscription = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1188,29 +833,10 @@ export type OnDeleteAccountSubscription = {
     avatarUrl: string,
     conversations?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1224,29 +850,10 @@ export type OnCreateConversationSubscription = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1260,29 +867,10 @@ export type OnUpdateConversationSubscription = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1296,29 +884,10 @@ export type OnDeleteConversationSubscription = {
     id: string,
     accounts?:  {
       __typename: "ModelAccountConversationConnection",
-      items:  Array< {
-        __typename: "AccountConversation",
-        id: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
       nextToken?: string | null,
     } | null,
     messages?:  {
       __typename: "ModelMessageConnection",
-      items:  Array< {
-        __typename: "Message",
-        id: string,
-        content: string,
-        accountID: string,
-        conversationID: string,
-        createdAt: string,
-        updatedAt: string,
-        accountMessagesId?: string | null,
-        conversationMessagesId?: string | null,
-      } | null >,
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1338,28 +907,12 @@ export type OnCreateMessageSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1382,28 +935,12 @@ export type OnUpdateMessageSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1426,28 +963,12 @@ export type OnDeleteMessageSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     conversation?:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1469,28 +990,12 @@ export type OnCreateAccountConversationSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1510,28 +1015,12 @@ export type OnUpdateAccountConversationSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1551,28 +1040,12 @@ export type OnDeleteAccountConversationSubscription = {
       id: string,
       address: string,
       avatarUrl: string,
-      conversations?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },
     conversation:  {
       __typename: "Conversation",
       id: string,
-      accounts?:  {
-        __typename: "ModelAccountConversationConnection",
-        nextToken?: string | null,
-      } | null,
-      messages?:  {
-        __typename: "ModelMessageConnection",
-        nextToken?: string | null,
-      } | null,
       createdAt: string,
       updatedAt: string,
     },

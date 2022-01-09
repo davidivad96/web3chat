@@ -3,32 +3,15 @@
 // this is an auto generated file. This will be overwritten
 
 export const getAccount = /* GraphQL */ `
-  query GetAccount($id: ID!) {
-    getAccount(id: $id) {
+  query GetAccount($address: ID!) {
+    getAccount(address: $address) {
       id
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -38,21 +21,23 @@ export const getAccount = /* GraphQL */ `
 `;
 export const listAccounts = /* GraphQL */ `
   query ListAccounts(
+    $address: ID
     $filter: ModelAccountFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAccounts(
+      address: $address
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -65,26 +50,9 @@ export const getConversation = /* GraphQL */ `
     getConversation(id: $id) {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -101,12 +69,6 @@ export const listConversations = /* GraphQL */ `
     listConversations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -125,23 +87,11 @@ export const getMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -164,18 +114,6 @@ export const listMessages = /* GraphQL */ `
         content
         accountID
         conversationID
-        account {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
-        conversation {
-          id
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
         accountMessagesId
@@ -195,23 +133,11 @@ export const getAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -235,18 +161,6 @@ export const listAccountConversations = /* GraphQL */ `
         id
         accountID
         conversationID
-        account {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
-        conversation {
-          id
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }

@@ -9,26 +9,9 @@ export const onCreateAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -43,26 +26,9 @@ export const onUpdateAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -77,26 +43,9 @@ export const onDeleteAccount = /* GraphQL */ `
       address
       avatarUrl
       conversations {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -109,26 +58,9 @@ export const onCreateConversation = /* GraphQL */ `
     onCreateConversation {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -141,26 +73,9 @@ export const onUpdateConversation = /* GraphQL */ `
     onUpdateConversation {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -173,26 +88,9 @@ export const onDeleteConversation = /* GraphQL */ `
     onDeleteConversation {
       id
       accounts {
-        items {
-          id
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
         nextToken
       }
       createdAt
@@ -211,23 +109,11 @@ export const onCreateMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -249,23 +135,11 @@ export const onUpdateMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -287,23 +161,11 @@ export const onDeleteMessage = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -324,23 +186,11 @@ export const onCreateAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -359,23 +209,11 @@ export const onUpdateAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -394,23 +232,11 @@ export const onDeleteAccountConversation = /* GraphQL */ `
         id
         address
         avatarUrl
-        conversations {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
       conversation {
         id
-        accounts {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
         createdAt
         updatedAt
       }
