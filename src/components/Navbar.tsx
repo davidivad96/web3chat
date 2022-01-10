@@ -69,7 +69,7 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
           <ConnectWallet display={{ base: 'none', md: 'flex' }} />
           <Menu>
             <MenuButton rounded="full" variant="link" cursor="pointer" pl="5">
-              <Avatar size="md" src={avatarUrl} />
+              <Avatar size="md" bg="#dedede" src={avatarUrl} />
             </MenuButton>
             <MenuList display={{ md: 'none' }}>
               <MenuItem>
