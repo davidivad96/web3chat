@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { Link as ReachLink } from 'react-router-dom';
 import {
   Avatar,
@@ -19,6 +20,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ConnectWallet } from '@3rdweb/react';
 import ChatLogo from '../../public/chat_logo.svg';
 import QuizLogo from '../../public/quiz_logo.svg';
+import { AccountContext } from '../contexts/Account';
 
 const Links = [
   { title: 'Chat', to: '/chat' },
@@ -31,6 +33,9 @@ interface Props {
 
 const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    account: { avatarUrl },
+  } = useContext(AccountContext);
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={6}>
@@ -64,12 +69,7 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
           <ConnectWallet display={{ base: 'none', md: 'flex' }} />
           <Menu>
             <MenuButton rounded="full" variant="link" cursor="pointer" pl="5">
-              <Avatar
-                size="md"
-                src={
-                  'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                }
-              />
+              <Avatar size="md" src={avatarUrl} />
             </MenuButton>
             <MenuList display={{ md: 'none' }}>
               <MenuItem>
