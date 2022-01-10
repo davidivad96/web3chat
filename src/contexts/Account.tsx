@@ -1,9 +1,5 @@
 import React, { useState, useCallback } from 'react';
-
-interface Account {
-  address?: string;
-  avatarUrl?: string;
-}
+import { Account } from '../interfaces';
 
 interface ContextProps {
   account: Account;

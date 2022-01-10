@@ -14,8 +14,8 @@ interface ReturnValue {
 }
 
 const useAuthentication = (): ReturnValue => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { address, balance } = useWeb3();
   const { updateAccount } = useContext(AccountContext);
 
