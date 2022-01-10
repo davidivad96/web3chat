@@ -8,10 +8,28 @@ export const getAccount = /* GraphQL */ `
       id
       address
       avatarUrl
-      conversations {
+      messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
-      messages {
+      conversations {
+        items {
+          id
+          account1ID
+          account2ID
+          createdAt
+          updatedAt
+          accountConversationsId
+        }
         nextToken
       }
       createdAt
@@ -38,6 +56,12 @@ export const listAccounts = /* GraphQL */ `
         id
         address
         avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -49,14 +73,50 @@ export const getConversation = /* GraphQL */ `
   query GetConversation($id: ID!) {
     getConversation(id: $id) {
       id
-      accounts {
-        nextToken
+      account1ID
+      account2ID
+      account1 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      account2 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
       createdAt
       updatedAt
+      accountConversationsId
     }
   }
 `;
@@ -69,8 +129,28 @@ export const listConversations = /* GraphQL */ `
     listConversations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        account1ID
+        account2ID
+        account1 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        account2 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        messages {
+          nextToken
+        }
         createdAt
         updatedAt
+        accountConversationsId
       }
       nextToken
     }
@@ -87,13 +167,39 @@ export const getMessage = /* GraphQL */ `
         id
         address
         avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       conversation {
         id
+        account1ID
+        account2ID
+        account1 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        account2 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        messages {
+          nextToken
+        }
         createdAt
         updatedAt
+        accountConversationsId
       }
       createdAt
       updatedAt
@@ -114,55 +220,25 @@ export const listMessages = /* GraphQL */ `
         content
         accountID
         conversationID
+        account {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        conversation {
+          id
+          account1ID
+          account2ID
+          createdAt
+          updatedAt
+          accountConversationsId
+        }
         createdAt
         updatedAt
         accountMessagesId
         conversationMessagesId
-      }
-      nextToken
-    }
-  }
-`;
-export const getAccountConversation = /* GraphQL */ `
-  query GetAccountConversation($id: ID!) {
-    getAccountConversation(id: $id) {
-      id
-      accountID
-      conversationID
-      account {
-        id
-        address
-        avatarUrl
-        createdAt
-        updatedAt
-      }
-      conversation {
-        id
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listAccountConversations = /* GraphQL */ `
-  query ListAccountConversations(
-    $filter: ModelAccountConversationFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAccountConversations(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        accountID
-        conversationID
-        createdAt
-        updatedAt
       }
       nextToken
     }

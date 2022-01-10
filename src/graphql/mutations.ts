@@ -11,10 +11,28 @@ export const createAccount = /* GraphQL */ `
       id
       address
       avatarUrl
-      conversations {
+      messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
-      messages {
+      conversations {
+        items {
+          id
+          account1ID
+          account2ID
+          createdAt
+          updatedAt
+          accountConversationsId
+        }
         nextToken
       }
       createdAt
@@ -31,10 +49,28 @@ export const updateAccount = /* GraphQL */ `
       id
       address
       avatarUrl
-      conversations {
+      messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
-      messages {
+      conversations {
+        items {
+          id
+          account1ID
+          account2ID
+          createdAt
+          updatedAt
+          accountConversationsId
+        }
         nextToken
       }
       createdAt
@@ -51,10 +87,28 @@ export const deleteAccount = /* GraphQL */ `
       id
       address
       avatarUrl
-      conversations {
+      messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
-      messages {
+      conversations {
+        items {
+          id
+          account1ID
+          account2ID
+          createdAt
+          updatedAt
+          accountConversationsId
+        }
         nextToken
       }
       createdAt
@@ -69,14 +123,50 @@ export const createConversation = /* GraphQL */ `
   ) {
     createConversation(input: $input, condition: $condition) {
       id
-      accounts {
-        nextToken
+      account1ID
+      account2ID
+      account1 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      account2 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
       createdAt
       updatedAt
+      accountConversationsId
     }
   }
 `;
@@ -87,14 +177,50 @@ export const updateConversation = /* GraphQL */ `
   ) {
     updateConversation(input: $input, condition: $condition) {
       id
-      accounts {
-        nextToken
+      account1ID
+      account2ID
+      account1 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      account2 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
       createdAt
       updatedAt
+      accountConversationsId
     }
   }
 `;
@@ -105,14 +231,50 @@ export const deleteConversation = /* GraphQL */ `
   ) {
     deleteConversation(input: $input, condition: $condition) {
       id
-      accounts {
-        nextToken
+      account1ID
+      account2ID
+      account1 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      account2 {
+        id
+        address
+        avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
+        createdAt
+        updatedAt
       }
       messages {
+        items {
+          id
+          content
+          accountID
+          conversationID
+          createdAt
+          updatedAt
+          accountMessagesId
+          conversationMessagesId
+        }
         nextToken
       }
       createdAt
       updatedAt
+      accountConversationsId
     }
   }
 `;
@@ -130,13 +292,39 @@ export const createMessage = /* GraphQL */ `
         id
         address
         avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       conversation {
         id
+        account1ID
+        account2ID
+        account1 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        account2 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        messages {
+          nextToken
+        }
         createdAt
         updatedAt
+        accountConversationsId
       }
       createdAt
       updatedAt
@@ -159,13 +347,39 @@ export const updateMessage = /* GraphQL */ `
         id
         address
         avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       conversation {
         id
+        account1ID
+        account2ID
+        account1 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        account2 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        messages {
+          nextToken
+        }
         createdAt
         updatedAt
+        accountConversationsId
       }
       createdAt
       updatedAt
@@ -188,96 +402,44 @@ export const deleteMessage = /* GraphQL */ `
         id
         address
         avatarUrl
+        messages {
+          nextToken
+        }
+        conversations {
+          nextToken
+        }
         createdAt
         updatedAt
       }
       conversation {
         id
+        account1ID
+        account2ID
+        account1 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        account2 {
+          id
+          address
+          avatarUrl
+          createdAt
+          updatedAt
+        }
+        messages {
+          nextToken
+        }
         createdAt
         updatedAt
+        accountConversationsId
       }
       createdAt
       updatedAt
       accountMessagesId
       conversationMessagesId
-    }
-  }
-`;
-export const createAccountConversation = /* GraphQL */ `
-  mutation CreateAccountConversation(
-    $input: CreateAccountConversationInput!
-    $condition: ModelAccountConversationConditionInput
-  ) {
-    createAccountConversation(input: $input, condition: $condition) {
-      id
-      accountID
-      conversationID
-      account {
-        id
-        address
-        avatarUrl
-        createdAt
-        updatedAt
-      }
-      conversation {
-        id
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateAccountConversation = /* GraphQL */ `
-  mutation UpdateAccountConversation(
-    $input: UpdateAccountConversationInput!
-    $condition: ModelAccountConversationConditionInput
-  ) {
-    updateAccountConversation(input: $input, condition: $condition) {
-      id
-      accountID
-      conversationID
-      account {
-        id
-        address
-        avatarUrl
-        createdAt
-        updatedAt
-      }
-      conversation {
-        id
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteAccountConversation = /* GraphQL */ `
-  mutation DeleteAccountConversation(
-    $input: DeleteAccountConversationInput!
-    $condition: ModelAccountConversationConditionInput
-  ) {
-    deleteAccountConversation(input: $input, condition: $condition) {
-      id
-      accountID
-      conversationID
-      account {
-        id
-        address
-        avatarUrl
-        createdAt
-        updatedAt
-      }
-      conversation {
-        id
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;

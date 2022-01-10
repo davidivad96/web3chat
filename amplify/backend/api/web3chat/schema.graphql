@@ -7,13 +7,16 @@ type Account @model {
   id: ID!
   address: ID! @primaryKey
   avatarUrl: String!
-  conversations: [Conversation] @manyToMany(relationName: "AccountConversation")
   messages: [Message] @hasMany
+  conversations: [Conversation] @hasMany
 }
 
 type Conversation @model {
   id: ID!
-  accounts: [Account] @manyToMany(relationName: "AccountConversation")
+  account1ID: ID!
+  account2ID: ID!
+  account1: Account @belongsTo(fields: ["account1ID"])
+  account2: Account @belongsTo(fields: ["account2ID"])
   messages: [Message] @hasMany
 }
 

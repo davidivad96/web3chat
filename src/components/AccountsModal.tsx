@@ -17,6 +17,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import { listAccounts } from '../graphql/queries';
+import { createConversation } from '../graphql/mutations';
 import { ListAccountsQuery } from '../API';
 import { Account } from '../interfaces';
 import { AccountContext } from '../contexts/Account';
@@ -28,7 +29,7 @@ interface Props {
 
 const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
   const {
-    account: { address },
+    account: { address: myAddress },
   } = useContext(AccountContext);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,21 +37,29 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
   const fetchAccounts = useCallback(async () => {
     setIsLoading(true);
     const { data: listAccountsData } = (await API.graphql(
-      graphqlOperation(listAccounts),
+      graphqlOperation(listAccounts, { filter: { address: { ne: myAddress } } }),
     )) as GraphQLResult<ListAccountsQuery>;
     const items = listAccountsData?.listAccounts?.items;
     if (items) {
       setAccounts(
-        items
-          .filter((account) => account?.address !== address)
-          .map((account) => ({
-            address: account?.address,
-            avatarUrl: account?.avatarUrl,
-          })),
+        items.map((account) => ({
+          address: account?.address,
+          avatarUrl: account?.avatarUrl,
+        })),
       );
     }
     setIsLoading(false);
-  }, [address]);
+  }, [myAddress]);
+
+  const createNewChat = useCallback(
+    async (otherAccountAddress: string | undefined) => {
+      await API.graphql(
+        graphqlOperation(createConversation, { input: { account1ID: myAddress, account2ID: otherAccountAddress } }),
+      );
+      onClose();
+    },
+    [myAddress, onClose],
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -72,7 +81,7 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
           ) : accounts.length !== 0 ? (
             <>
               {accounts.map((account) => (
-                <Button key={account.address} variant="outline" mb="6">
+                <Button key={account.address} variant="outline" mb="6" onClick={() => createNewChat(account.address)}>
                   <HStack>
                     <Avatar size="md" bg="#dedede" src={account.avatarUrl} />
                     <Text>{account.address}</Text>
