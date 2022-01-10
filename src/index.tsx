@@ -7,6 +7,7 @@ import { ConnectorOptions } from '@3rdweb/hooks';
 import { BrowserRouter } from 'react-router-dom';
 import Amplify from 'aws-amplify';
 import awsExports from './aws-exports';
+import { AccountProvider } from './contexts/Account';
 
 Amplify.configure(awsExports);
 
@@ -19,9 +20,11 @@ ReactDOM.render(
   <React.StrictMode>
     <ThirdwebProvider connectors={connectors} supportedChainIds={supportedChainIds}>
       <ChakraProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <AccountProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AccountProvider>
       </ChakraProvider>
     </ThirdwebProvider>
   </React.StrictMode>,
