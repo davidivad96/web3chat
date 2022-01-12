@@ -56,8 +56,7 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
                 as={ReachLink}
                 to={link.to}
                 variant="solid"
-                bg="#1E619A"
-                color="white"
+                colorScheme="blue"
                 _hover={{ opacity: 0.5 }}
               >
                 {link.title}
@@ -88,8 +87,7 @@ const Navbar: React.FunctionComponent<Props> = ({ page = 'chat' }) => {
                 as={ReachLink}
                 to={link.to}
                 variant="solid"
-                bg="#1E619A"
-                color="white"
+                colorScheme="blue"
                 _hover={{ opacity: 0.5 }}
               >
                 {link.title}

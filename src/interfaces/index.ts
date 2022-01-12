@@ -3,6 +3,14 @@ export interface Account {
   avatarUrl?: string;
 }
 
-export interface Conversation {
-  with: Account;
+export interface Chat {
+  id?: string;
+  name?: string;
+  participants?: Account[];
+}
+
+export interface GraphQLSubscription<T> {
+  value: {
+    data: T;
+  };
 }

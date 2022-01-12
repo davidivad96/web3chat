@@ -1,6 +1,6 @@
 projects:
   web3chat:
-    schemaPath: amplify/backend/api/web3chat/build/schema.graphql
+    schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.ts
     excludes:
@@ -10,6 +10,7 @@ projects:
         codeGenTarget: typescript
         generatedFileName: src/API.ts
         docsFilePath: src/graphql
+        maxDepth: 6
 extensions:
   amplify:
     version: 3

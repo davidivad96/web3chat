@@ -29,8 +29,9 @@ const useAuthentication = (): ReturnValue => {
   }, [address, balance?.formatted]);
 
   const handleAuthentication = useCallback(async () => {
+    setIsLoading(true);
     const { data: getAccountData } = (await API.graphql(
-      graphqlOperation(getAccount, { address }),
+      graphqlOperation(getAccount, { id: address }),
     )) as GraphQLResult<GetAccountQuery>;
     let account = getAccountData?.getAccount;
     if (!account) {
@@ -38,14 +39,15 @@ const useAuthentication = (): ReturnValue => {
       const { data: createAccountData } = (await API.graphql(
         graphqlOperation(createAccount, {
           input: {
-            address,
+            id: address,
             avatarUrl,
           },
         }),
       )) as GraphQLResult<CreateAccountMutation>;
       account = createAccountData?.createAccount;
     }
-    updateAccount({ address: account?.address, avatarUrl: account?.avatarUrl });
+    updateAccount({ address: account?.id, avatarUrl: account?.avatarUrl });
+    setIsLoading(false);
   }, [address, updateAccount]);
 
   useEffect(() => {

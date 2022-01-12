@@ -9,29 +9,133 @@ export const createAccount = /* GraphQL */ `
   ) {
     createAccount(input: $input, condition: $condition) {
       id
-      address
       avatarUrl
       messages {
         items {
           id
           content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           accountID
-          conversationID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountMessagesId
-          conversationMessagesId
         }
         nextToken
       }
-      conversations {
+      chats {
         items {
           id
-          account1ID
-          account2ID
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountConversationsId
         }
         nextToken
       }
@@ -47,29 +151,133 @@ export const updateAccount = /* GraphQL */ `
   ) {
     updateAccount(input: $input, condition: $condition) {
       id
-      address
       avatarUrl
       messages {
         items {
           id
           content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           accountID
-          conversationID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountMessagesId
-          conversationMessagesId
         }
         nextToken
       }
-      conversations {
+      chats {
         items {
           id
-          account1ID
-          account2ID
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountConversationsId
         }
         nextToken
       }
@@ -85,29 +293,133 @@ export const deleteAccount = /* GraphQL */ `
   ) {
     deleteAccount(input: $input, condition: $condition) {
       id
-      address
       avatarUrl
       messages {
         items {
           id
           content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           accountID
-          conversationID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountMessagesId
-          conversationMessagesId
         }
         nextToken
       }
-      conversations {
+      chats {
         items {
           id
-          account1ID
-          account2ID
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountConversationsId
         }
         nextToken
       }
@@ -116,165 +428,921 @@ export const deleteAccount = /* GraphQL */ `
     }
   }
 `;
-export const createConversation = /* GraphQL */ `
-  mutation CreateConversation(
-    $input: CreateConversationInput!
-    $condition: ModelConversationConditionInput
+export const createAccountChat = /* GraphQL */ `
+  mutation CreateAccountChat(
+    $input: CreateAccountChatInput!
+    $condition: ModelAccountChatConditionInput
   ) {
-    createConversation(input: $input, condition: $condition) {
+    createAccountChat(input: $input, condition: $condition) {
       id
-      account1ID
-      account2ID
-      account1 {
+      accountID
+      account {
         id
-        address
         avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      account2 {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
-      }
-      messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
-        nextToken
       }
       createdAt
       updatedAt
-      accountConversationsId
     }
   }
 `;
-export const updateConversation = /* GraphQL */ `
-  mutation UpdateConversation(
-    $input: UpdateConversationInput!
-    $condition: ModelConversationConditionInput
+export const updateAccountChat = /* GraphQL */ `
+  mutation UpdateAccountChat(
+    $input: UpdateAccountChatInput!
+    $condition: ModelAccountChatConditionInput
   ) {
-    updateConversation(input: $input, condition: $condition) {
+    updateAccountChat(input: $input, condition: $condition) {
       id
-      account1ID
-      account2ID
-      account1 {
+      accountID
+      account {
         id
-        address
         avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      account2 {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
-      }
-      messages {
-        items {
-          id
-          content
-          accountID
-          conversationID
-          createdAt
-          updatedAt
-          accountMessagesId
-          conversationMessagesId
-        }
-        nextToken
       }
       createdAt
       updatedAt
-      accountConversationsId
     }
   }
 `;
-export const deleteConversation = /* GraphQL */ `
-  mutation DeleteConversation(
-    $input: DeleteConversationInput!
-    $condition: ModelConversationConditionInput
+export const deleteAccountChat = /* GraphQL */ `
+  mutation DeleteAccountChat(
+    $input: DeleteAccountChatInput!
+    $condition: ModelAccountChatConditionInput
   ) {
-    deleteConversation(input: $input, condition: $condition) {
+    deleteAccountChat(input: $input, condition: $condition) {
       id
-      account1ID
-      account2ID
-      account1 {
+      accountID
+      account {
         id
-        address
         avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      account2 {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createChat = /* GraphQL */ `
+  mutation CreateChat(
+    $input: CreateChatInput!
+    $condition: ModelChatConditionInput
+  ) {
+    createChat(input: $input, condition: $condition) {
+      id
+      name
       messages {
         items {
           id
           content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           accountID
-          conversationID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
           createdAt
           updatedAt
-          accountMessagesId
-          conversationMessagesId
+        }
+        nextToken
+      }
+      accounts {
+        items {
+          id
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
         }
         nextToken
       }
       createdAt
       updatedAt
-      accountConversationsId
+    }
+  }
+`;
+export const updateChat = /* GraphQL */ `
+  mutation UpdateChat(
+    $input: UpdateChatInput!
+    $condition: ModelChatConditionInput
+  ) {
+    updateChat(input: $input, condition: $condition) {
+      id
+      name
+      messages {
+        items {
+          id
+          content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      accounts {
+        items {
+          id
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteChat = /* GraphQL */ `
+  mutation DeleteChat(
+    $input: DeleteChatInput!
+    $condition: ModelChatConditionInput
+  ) {
+    deleteChat(input: $input, condition: $condition) {
+      id
+      name
+      messages {
+        items {
+          id
+          content
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      accounts {
+        items {
+          id
+          accountID
+          account {
+            id
+            avatarUrl
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            chats {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          chatID
+          chat {
+            id
+            name
+            messages {
+              items {
+                id
+                content
+                chatID
+                accountID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            accounts {
+              items {
+                id
+                accountID
+                chatID
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -286,50 +1354,160 @@ export const createMessage = /* GraphQL */ `
     createMessage(input: $input, condition: $condition) {
       id
       content
-      accountID
-      conversationID
-      account {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      conversation {
+      accountID
+      account {
         id
-        account1ID
-        account2ID
-        account1 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
-        account2 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
+        avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
-        accountConversationsId
       }
       createdAt
       updatedAt
-      accountMessagesId
-      conversationMessagesId
     }
   }
 `;
@@ -341,50 +1519,160 @@ export const updateMessage = /* GraphQL */ `
     updateMessage(input: $input, condition: $condition) {
       id
       content
-      accountID
-      conversationID
-      account {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      conversation {
+      accountID
+      account {
         id
-        account1ID
-        account2ID
-        account1 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
-        account2 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
+        avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
-        accountConversationsId
       }
       createdAt
       updatedAt
-      accountMessagesId
-      conversationMessagesId
     }
   }
 `;
@@ -396,50 +1684,160 @@ export const deleteMessage = /* GraphQL */ `
     deleteMessage(input: $input, condition: $condition) {
       id
       content
-      accountID
-      conversationID
-      account {
+      chatID
+      chat {
         id
-        address
-        avatarUrl
+        name
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
-        conversations {
+        accounts {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      conversation {
+      accountID
+      account {
         id
-        account1ID
-        account2ID
-        account1 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
-        account2 {
-          id
-          address
-          avatarUrl
-          createdAt
-          updatedAt
-        }
+        avatarUrl
         messages {
+          items {
+            id
+            content
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        chats {
+          items {
+            id
+            accountID
+            account {
+              id
+              avatarUrl
+              messages {
+                nextToken
+              }
+              chats {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            chatID
+            chat {
+              id
+              name
+              messages {
+                nextToken
+              }
+              accounts {
+                nextToken
+              }
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
-        accountConversationsId
       }
       createdAt
       updatedAt
-      accountMessagesId
-      conversationMessagesId
     }
   }
 `;

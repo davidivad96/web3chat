@@ -2,7 +2,7 @@ import { ConnectWallet } from '@3rdweb/react';
 import { Center, Heading, Text, VStack } from '@chakra-ui/react';
 
 const Home: React.FunctionComponent = () => (
-  <Center h="full" color="white">
+  <Center h="full" color="#FFF">
     <VStack spacing={5}>
       <VStack>
         <Heading fontSize="6xl">Welcome to Web3Chat!</Heading>

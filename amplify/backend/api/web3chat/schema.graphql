@@ -4,27 +4,43 @@ input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
 type Account @model {
-  id: ID!
-  address: ID! @primaryKey
+  id: ID! @primaryKey
   avatarUrl: String!
-  messages: [Message] @hasMany
-  conversations: [Conversation] @hasMany
+  messages: [Message] @hasMany(indexName: "byAccount", fields: ["id"])
+  chats: [AccountChat] @hasMany(indexName: "byAccount", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
-type Conversation @model {
-  id: ID!
-  account1ID: ID!
-  account2ID: ID!
-  account1: Account @belongsTo(fields: ["account1ID"])
-  account2: Account @belongsTo(fields: ["account2ID"])
-  messages: [Message] @hasMany
-}
-
-type Message @model {
-  id: ID!
-  content: String!
-  accountID: ID!
-  conversationID: ID!
+type AccountChat @model(subscriptions: null) {
+  id: ID! @primaryKey
+  accountID: ID! @index(name: "byAccount")
   account: Account @belongsTo(fields: ["accountID"])
-  conversation: Conversation @belongsTo(fields: ["conversationID"])
+  chatID: ID! @index(name: "byChat")
+  chat: Chat @belongsTo(fields: ["chatID"])
+}
+
+type Chat @model {
+  id: ID! @primaryKey
+  name: String!
+  messages: [Message] @hasMany(indexName: "byChat", fields: ["id"])
+  accounts: [AccountChat] @hasMany(indexName: "byChat", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Message @model(subscriptions: null) {
+  id: ID! @primaryKey
+  content: String!
+  chatID: ID! @index(name: "byChat", sortKeyFields: ["createdAt"])
+  chat: Chat @belongsTo(fields: ["chatID"])
+  accountID: ID! @index(name: "byAccount")
+  account: Account @belongsTo(fields: ["accountID"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Subscription {
+  onCreateAccountChat(accountID: ID!): AccountChat @aws_subscribe(mutations: ["createAccountChat"])
+  onCreateMessage(chatID: ID!): Message @aws_subscribe(mutations: ["createMessage"])
 }

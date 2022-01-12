@@ -1,9 +1,8 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import {
   Avatar,
   Button,
   Center,
-  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -12,12 +11,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import { listAccounts } from '../graphql/queries';
-import { createConversation } from '../graphql/mutations';
 import { ListAccountsQuery } from '../API';
 import { Account } from '../interfaces';
 import { AccountContext } from '../contexts/Account';
@@ -27,23 +26,37 @@ interface Props {
   onClose: () => void;
 }
 
-const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
+const CreateChatModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
   const {
     account: { address: myAddress },
   } = useContext(AccountContext);
   const [accounts, setAccounts] = useState<Account[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const updateSelected = useCallback((address: string) => {
+    setSelected((selected) =>
+      selected.includes(address) ? selected.filter((e) => e !== address) : [...selected, address || ''],
+    );
+  }, []);
+
+  const isSelected = useCallback((address: string | undefined) => address && selected.includes(address), [selected]);
+
+  const onCloseModal = useCallback(() => {
+    setSelected([]);
+    onClose();
+  }, [onClose]);
 
   const fetchAccounts = useCallback(async () => {
     setIsLoading(true);
     const { data: listAccountsData } = (await API.graphql(
-      graphqlOperation(listAccounts, { filter: { address: { ne: myAddress } } }),
+      graphqlOperation(listAccounts, { filter: { id: { ne: myAddress } } }),
     )) as GraphQLResult<ListAccountsQuery>;
     const items = listAccountsData?.listAccounts?.items;
     if (items) {
       setAccounts(
         items.map((account) => ({
-          address: account?.address,
+          address: account?.id,
           avatarUrl: account?.avatarUrl,
         })),
       );
@@ -53,12 +66,12 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
 
   const createNewChat = useCallback(
     async (otherAccountAddress: string | undefined) => {
-      await API.graphql(
+      /* await API.graphql(
         graphqlOperation(createConversation, { input: { account1ID: myAddress, account2ID: otherAccountAddress } }),
-      );
-      onClose();
+      ); */
+      onCloseModal();
     },
-    [myAddress, onClose],
+    [myAddress, onCloseModal],
   );
 
   useEffect(() => {
@@ -68,7 +81,7 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
   }, [isOpen, fetchAccounts]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} isCentered scrollBehavior="inside" size="xl">
+    <Modal isOpen={isOpen} onClose={onCloseModal} isCentered scrollBehavior="inside" size="xl">
       <ModalOverlay />
       <ModalContent minH={180}>
         <ModalHeader>New chat</ModalHeader>
@@ -79,23 +92,29 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
               <ClipLoader loading color="#1A2980" />
             </Center>
           ) : accounts.length !== 0 ? (
-            <>
+            <VStack spacing="6" align="flex-start">
               {accounts.map((account) => (
-                <Button key={account.address} variant="outline" mb="6" onClick={() => createNewChat(account.address)}>
-                  <HStack>
-                    <Avatar size="md" bg="#dedede" src={account.avatarUrl} />
-                    <Text>{account.address}</Text>
-                  </HStack>
+                <Button
+                  key={account.address}
+                  variant="solid"
+                  onClick={() => account.address && updateSelected(account.address)}
+                  colorScheme={isSelected(account.address) ? 'blue' : 'blackAlpha'}
+                >
+                  <Avatar size="md" bg="#dedede" src={account.avatarUrl} />
+                  <Text ml="3">{account.address}</Text>
                 </Button>
               ))}
-            </>
+            </VStack>
           ) : (
             <Text>Ups! There are no accounts at the moment</Text>
           )}
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
+          <Button colorScheme="blue" mr={3} onClick={onCloseModal}>
             Close
+          </Button>
+          <Button variant="ghost" onClick={onCloseModal}>
+            Create
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -103,4 +122,4 @@ const AccountsModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) => {
   );
 };
 
-export default AccountsModal;
+export default CreateChatModal;

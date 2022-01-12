@@ -1,51 +1,91 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { Box, Center, IconButton, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Center, IconButton, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import Navbar from '../components/Navbar';
-import AccountsModal from '../components/AccountsModal';
-import { Conversation } from '../interfaces';
+import CreateChatModal from '../components/CreateChatModal';
+import { Chat as ChatInterface } from '../interfaces';
+import { listAccountChats } from '../graphql/queries';
+import { ListAccountChatsQuery } from '../API';
 import { AccountContext } from '../contexts/Account';
-import { listConversations } from '../graphql/queries';
-import { ListConversationsQuery } from '../API';
 
 const Chat: React.FunctionComponent = () => {
   const {
     account: { address: myAddress },
   } = useContext(AccountContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fetchConversations = useCallback(async () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [chats, setChats] = useState<ChatInterface[]>([]);
+  /* 
+  const fetchMessages = useCallback(async () => {
     setIsLoading(true);
-    const { data: listConversationsData } = (await API.graphql(
-      graphqlOperation(listConversations, {
-        filter: { or: [{ account1ID: { eq: myAddress } }, { account2ID: { eq: myAddress } }] },
-      }),
-    )) as GraphQLResult<ListConversationsQuery>;
-    const items = listConversationsData?.listConversations?.items;
+    const { data: listMessagesData } = (await API.graphql(
+      graphqlOperation(listMessages),
+    )) as GraphQLResult<ListMessagesQuery>;
+    const items = listMessagesData?.listMessages?.items;
     if (items) {
-      setConversations(
-        items.map((conversation) => {
-          const otherAccount = conversation?.account1ID === myAddress ? conversation?.account2 : conversation?.account1;
-          return {
-            with: {
-              address: otherAccount?.address,
-              avatarUrl: otherAccount?.avatarUrl,
+      setMessages(
+        items?.map((item) => ({
+          content: item?.content,
+          owner: item?.accountID,
+          timestamp: Date.parse(item?.createdAt || ''),
+        })),
+      );
+    }
+    setIsLoading(false);
+  }, []);
+
+  const subscribeToNewMessages = useCallback(
+    async () =>
+      (
+        (await API.graphql(graphqlOperation(onCreateMessage))) as Observable<
+          GraphQLSubscription<OnCreateMessageSubscription>
+        >
+      ).subscribe({
+        next: ({ value: { data } }) => {
+          const newMessage = data.onCreateMessage;
+          setMessages((messages) => [
+            ...messages,
+            {
+              content: newMessage?.content,
+              owner: newMessage?.accountID,
+              timestamp: Date.parse(newMessage?.createdAt || ''),
             },
-          };
-        }),
+          ]);
+        },
+        error: (error) => console.log({ error }),
+      }),
+    [],
+  );
+*/
+
+  const fetchChats = useCallback(async () => {
+    setIsLoading(true);
+    const { data: listAccountChatsData } = (await API.graphql(
+      graphqlOperation(listAccountChats, { filter: { accountID: { eq: myAddress } } }),
+    )) as GraphQLResult<ListAccountChatsQuery>;
+    const items = listAccountChatsData?.listAccountChats?.items;
+    if (items) {
+      setChats(
+        items?.map((item) => ({
+          id: item?.chat?.id,
+          name: item?.chat?.name,
+          participants: item?.chat?.accounts?.items.map((account) => ({
+            address: account?.account?.id,
+            avatarUrl: account?.account?.avatarUrl,
+          })),
+        })),
       );
     }
     setIsLoading(false);
   }, [myAddress]);
 
   useEffect(() => {
-    fetchConversations();
-  }, [fetchConversations]);
+    fetchChats();
+    // TODO: subscribe to OnCreateAccountChat(accountID=myAddress)
+  }, [fetchChats]);
 
   return (
     <Box bg="#dedede" h="full" borderRadius={3}>
@@ -54,15 +94,15 @@ const Chat: React.FunctionComponent = () => {
         <Center mt="12">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
-      ) : conversations.length !== 0 ? (
-        <Text>hello</Text>
       ) : (
         <>
-          <Center>
-            <Text>{"It seems you haven't started any conversation yet"}</Text>
-            <IconButton aria-label="Add Chat" icon={<AddIcon />} onClick={onOpen} />
-          </Center>
-          <AccountsModal isOpen={isOpen} onClose={onClose} />
+          <VStack>
+            {chats.map((chat) => (
+              <Text key={chat.id}>{chat.name}</Text>
+            ))}
+            <IconButton aria-label="Create New Chat" icon={<AddIcon />} onClick={onOpen} />
+          </VStack>
+          <CreateChatModal isOpen={isOpen} onClose={onClose} />
         </>
       )}
     </Box>

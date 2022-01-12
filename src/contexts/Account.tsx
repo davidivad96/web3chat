@@ -9,7 +9,7 @@ interface ContextProps {
 const AccountContext = React.createContext<ContextProps>({} as ContextProps);
 
 const AccountProvider = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
-  const [account, setAccount] = useState<Account>({});
+  const [account, setAccount] = useState<Account>({ address: '', avatarUrl: '' });
 
   const updateAccount = useCallback((newAccount: Account) => setAccount(newAccount), []);
 
