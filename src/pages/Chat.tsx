@@ -1,5 +1,16 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { Avatar, Box, Button, Center, HStack, IconButton, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Center,
+  HStack,
+  IconButton,
+  SimpleGrid,
+  Text,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -77,15 +88,15 @@ const Chat: React.FunctionComponent = () => {
   }, [fetchChats, subscribeToNewChats]);
 
   return (
-    <Box bg="#dedede" h="full" borderRadius={3}>
+    <>
       <Navbar page="chat" />
       {isLoading ? (
         <Center mt="12">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
       ) : (
-        <>
-          <VStack my="3">
+        <SimpleGrid columns={2}>
+          <VStack py="3" bg="#dedede" pos="relative" h="calc(100vh - 75px)" overflowY="scroll">
             {chats.map((chat) => (
               <Button key={chat.id} bg="#FFF" borderRadius="5" p="6">
                 <HStack spacing="4">
@@ -100,12 +111,22 @@ const Chat: React.FunctionComponent = () => {
                 </HStack>
               </Button>
             ))}
-            <IconButton aria-label="Create New Chat" icon={<AddIcon />} onClick={onOpen} />
+            <IconButton
+              aria-label="Create New Chat"
+              icon={<AddIcon />}
+              onClick={onOpen}
+              pos="absolute"
+              top="0.5"
+              right="5"
+            />
+            <CreateChatModal isOpen={isOpen} onClose={onClose} />
           </VStack>
-          <CreateChatModal isOpen={isOpen} onClose={onClose} />
-        </>
+          <VStack h="full">
+            <Box>hello</Box>
+          </VStack>
+        </SimpleGrid>
       )}
-    </Box>
+    </>
   );
 };
 
