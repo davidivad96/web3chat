@@ -128,11 +128,15 @@ export type CreateAccountChatInput = {
   id?: string | null,
   accountID: string,
   chatID: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelAccountChatConditionInput = {
   accountID?: ModelIDInput | null,
   chatID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelAccountChatConditionInput | null > | null,
   or?: Array< ModelAccountChatConditionInput | null > | null,
   not?: ModelAccountChatConditionInput | null,
@@ -158,6 +162,8 @@ export type UpdateAccountChatInput = {
   id: string,
   accountID?: string | null,
   chatID?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteAccountChatInput = {
@@ -250,6 +256,8 @@ export type ModelAccountChatFilterInput = {
   id?: ModelIDInput | null,
   accountID?: ModelIDInput | null,
   chatID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelAccountChatFilterInput | null > | null,
   or?: Array< ModelAccountChatFilterInput | null > | null,
   not?: ModelAccountChatFilterInput | null,

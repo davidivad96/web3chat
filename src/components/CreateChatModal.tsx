@@ -44,7 +44,10 @@ const CreateChatModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) =>
     );
   }, []);
 
-  const updateChatName = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => setChatName(evt.target.value), []);
+  const updateChatName = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
+    setChatName(evt.target.value);
+    setError(false);
+  }, []);
 
   const isSelected = useCallback((address: string | undefined) => address && selected.includes(address), [selected]);
 

@@ -6,10 +6,12 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import Navbar from '../components/Navbar';
 import CreateChatModal from '../components/CreateChatModal';
-import { Chat as ChatInterface } from '../interfaces';
+import { Chat as ChatInterface, GraphQLSubscription } from '../interfaces';
 import { listAccountChats } from '../graphql/queries';
-import { ListAccountChatsQuery } from '../API';
+import { onCreateAccountChat } from '../graphql/subscriptions';
+import { ListAccountChatsQuery, OnCreateAccountChatSubscription } from '../API';
 import { AccountContext } from '../contexts/Account';
+import Observable from 'zen-observable';
 
 const Chat: React.FunctionComponent = () => {
   const {
@@ -18,48 +20,6 @@ const Chat: React.FunctionComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [chats, setChats] = useState<ChatInterface[]>([]);
-  /* 
-  const fetchMessages = useCallback(async () => {
-    setIsLoading(true);
-    const { data: listMessagesData } = (await API.graphql(
-      graphqlOperation(listMessages),
-    )) as GraphQLResult<ListMessagesQuery>;
-    const items = listMessagesData?.listMessages?.items;
-    if (items) {
-      setMessages(
-        items?.map((item) => ({
-          content: item?.content,
-          owner: item?.accountID,
-          timestamp: Date.parse(item?.createdAt || ''),
-        })),
-      );
-    }
-    setIsLoading(false);
-  }, []);
-
-  const subscribeToNewMessages = useCallback(
-    async () =>
-      (
-        (await API.graphql(graphqlOperation(onCreateMessage))) as Observable<
-          GraphQLSubscription<OnCreateMessageSubscription>
-        >
-      ).subscribe({
-        next: ({ value: { data } }) => {
-          const newMessage = data.onCreateMessage;
-          setMessages((messages) => [
-            ...messages,
-            {
-              content: newMessage?.content,
-              owner: newMessage?.accountID,
-              timestamp: Date.parse(newMessage?.createdAt || ''),
-            },
-          ]);
-        },
-        error: (error) => console.log({ error }),
-      }),
-    [],
-  );
-*/
 
   const fetchChats = useCallback(async () => {
     setIsLoading(true);
@@ -82,10 +42,39 @@ const Chat: React.FunctionComponent = () => {
     setIsLoading(false);
   }, [myAddress]);
 
+  const subscribeToNewChats = useCallback(
+    async () =>
+      (
+        (await API.graphql(graphqlOperation(onCreateAccountChat, { accountID: myAddress }))) as Observable<
+          GraphQLSubscription<OnCreateAccountChatSubscription>
+        >
+      ).subscribe({
+        next: ({ value: { data } }) => {
+          const newChat = data.onCreateAccountChat;
+          setChats((chats) => [
+            {
+              id: newChat?.chat?.id,
+              name: newChat?.chat?.name,
+              participants: newChat?.chat?.accounts?.items.map((account) => ({
+                address: account?.account?.id,
+                avatarUrl: account?.account?.avatarUrl,
+              })),
+            },
+            ...chats,
+          ]);
+        },
+        error: (error) => console.log({ error }),
+      }),
+    [myAddress],
+  );
+
   useEffect(() => {
     fetchChats();
-    // TODO: subscribe to OnCreateAccountChat(accountID=myAddress)
-  }, [fetchChats]);
+    const subscriptionPromise = subscribeToNewChats();
+    return () => {
+      subscriptionPromise.then((subscription) => subscription.unsubscribe());
+    };
+  }, [fetchChats, subscribeToNewChats]);
 
   return (
     <Box bg="#dedede" h="full" borderRadius={3}>

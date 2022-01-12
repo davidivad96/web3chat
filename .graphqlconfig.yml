@@ -1,6 +1,6 @@
 projects:
   web3chat:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/web3chat/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

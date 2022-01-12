@@ -18,6 +18,8 @@ type AccountChat @model(subscriptions: null) {
   account: Account @belongsTo(fields: ["accountID"])
   chatID: ID! @index(name: "byChat")
   chat: Chat @belongsTo(fields: ["chatID"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
 type Chat @model {
