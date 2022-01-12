@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { Box, Center, IconButton, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Center, HStack, IconButton, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -85,9 +85,20 @@ const Chat: React.FunctionComponent = () => {
         </Center>
       ) : (
         <>
-          <VStack>
+          <VStack my="3">
             {chats.map((chat) => (
-              <Text key={chat.id}>{chat.name}</Text>
+              <Button key={chat.id} bg="#FFF" borderRadius="5" p="6">
+                <HStack spacing="4">
+                  <Box>
+                    {chat.participants
+                      ?.filter((participant) => participant.address !== myAddress)
+                      .map((participant) => (
+                        <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
+                      ))}
+                  </Box>
+                  <Text>{chat.name}</Text>
+                </HStack>
+              </Button>
             ))}
             <IconButton aria-label="Create New Chat" icon={<AddIcon />} onClick={onOpen} />
           </VStack>
