@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Avatar, Box, Button, Flex, IconButton, Text, VStack, useDisclosure, Center } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, IconButton, Text, VStack, useDisclosure, Center, Heading } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -76,40 +76,51 @@ const ChatsList: React.FunctionComponent<Props> = ({ myAddress, updateCurrentCha
     };
   }, [fetchChats, subscribeToNewChats]);
 
-  if (isLoading) {
-    return (
-      <Center mt="12">
-        <ClipLoader loading color="#1A2980" size={150} />
-      </Center>
-    );
-  }
-
   return (
-    <VStack py="3" bg="#dedede" pos="relative" h="calc(100vh - 75px)" overflowY="scroll">
-      {chats.map((chat) => (
-        <Button
-          key={chat.id}
-          bg="#FFF"
-          borderRadius="5"
-          px="5"
-          py="6"
-          onClick={() => chat.id && updateCurrentChat(chat.id)}
-        >
-          <Flex direction="row" align="center">
-            <Box>
-              {chat.participants
-                ?.filter((participant) => participant.address !== myAddress)
-                .map((participant) => (
-                  <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
-                ))}
-            </Box>
-            <Text ml={chat.participants?.length && chat.participants.length > 1 ? '3' : 'auto'}>{chat.name}</Text>
-          </Flex>
-        </Button>
-      ))}
-      <IconButton aria-label="Create New Chat" icon={<AddIcon />} onClick={onOpen} pos="absolute" top="0.5" right="5" />
+    <Box py="3" bg="#dedede" pos="relative" h="calc(100vh - 75px)" overflowY="scroll">
+      {isLoading ? (
+        <Center mt="12">
+          <ClipLoader loading color="#1A2980" size={150} />
+        </Center>
+      ) : (
+        <VStack>
+          <IconButton
+            aria-label="Create New Chat"
+            icon={<AddIcon />}
+            onClick={onOpen}
+            pos="sticky"
+            alignSelf="end"
+            top="2"
+            right="8"
+          />
+          <Heading>Your chats</Heading>
+          <VStack>
+            {chats.map((chat) => (
+              <Button
+                key={chat.id}
+                bg="#FFF"
+                borderRadius="5"
+                px="5"
+                py="6"
+                onClick={() => chat.id && updateCurrentChat(chat.id)}
+              >
+                <Flex direction="row" align="center">
+                  <Box>
+                    {chat.participants
+                      ?.filter((participant) => participant.address !== myAddress)
+                      .map((participant) => (
+                        <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
+                      ))}
+                  </Box>
+                  <Text ml={chat.participants?.length && chat.participants.length > 1 ? '3' : 'auto'}>{chat.name}</Text>
+                </Flex>
+              </Button>
+            ))}
+          </VStack>
+        </VStack>
+      )}
       <CreateChatModal isOpen={isOpen} onClose={onClose} />
-    </VStack>
+    </Box>
   );
 };
 

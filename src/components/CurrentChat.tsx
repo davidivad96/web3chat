@@ -3,13 +3,13 @@ import {
   Avatar,
   Center,
   Flex,
+  Heading,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Tag,
-  Text,
   VStack,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
@@ -121,7 +121,11 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
   }
 
   if (!chatID) {
-    return <Text>No current chat</Text>;
+    return (
+      <Center>
+        <Heading>No current chat</Heading>
+      </Center>
+    );
   }
 
   return (
