@@ -9,6 +9,12 @@ export interface Chat {
   participants?: Account[];
 }
 
+export interface Message {
+  id?: string;
+  content?: string;
+  sender?: Account;
+}
+
 export interface GraphQLSubscription<T> {
   value: {
     data: T;
