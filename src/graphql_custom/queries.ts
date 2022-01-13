@@ -1,9 +1,9 @@
 export const getChat = /* GraphQL */ `
-  query GetChat($id: ID!, $messagesSortDirection: ModelSortDirection) {
+  query GetChat($id: ID!, $messagesLimit: Int, $messagesNextToken: String, $messagesSortDirection: ModelSortDirection) {
     getChat(id: $id) {
       id
       name
-      messages(sortDirection: $messagesSortDirection) {
+      messages(limit: $messagesLimit, nextToken: $messagesNextToken, sortDirection: $messagesSortDirection) {
         items {
           id
           content
