@@ -12,15 +12,15 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
-import { ChevronRightIcon } from '@chakra-ui/icons';
-import { GraphQLSubscription, Message } from '../interfaces';
 import { getChat } from '../graphql_custom/queries';
 import { onCreateMessage } from '../graphql/subscriptions';
 import { createMessage } from '../graphql/mutations';
 import { CreateMessageMutation, GetChatQuery, OnCreateMessageSubscription } from '../API';
+import { GraphQLSubscription, Message } from '../interfaces';
 import Observable from 'zen-observable';
 
 interface Props {
