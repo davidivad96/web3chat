@@ -19,7 +19,7 @@ interface Props {
 const ChatsList: React.FunctionComponent<Props> = ({ myAddress, updateCurrentChat }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [chats, setChats] = useState<Chat[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchChats = useCallback(async () => {
     setIsLoading(true);
@@ -106,13 +106,11 @@ const ChatsList: React.FunctionComponent<Props> = ({ myAddress, updateCurrentCha
               >
                 <Flex direction="row" align="center">
                   <Box>
-                    {chat.participants
-                      ?.filter((participant) => participant.address !== myAddress)
-                      .map((participant) => (
-                        <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
-                      ))}
+                    {chat.participants?.map((participant) => (
+                      <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
+                    ))}
                   </Box>
-                  <Text ml={chat.participants?.length && chat.participants.length > 1 ? '3' : 'auto'}>{chat.name}</Text>
+                  <Text ml="3">{chat.name}</Text>
                 </Flex>
               </Button>
             ))}

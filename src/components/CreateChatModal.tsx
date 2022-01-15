@@ -35,7 +35,7 @@ const CreateChatModal: React.FunctionComponent<Props> = ({ isOpen, onClose }) =>
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [chatName, setChatName] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
   const updateSelected = useCallback((address: string) => {
