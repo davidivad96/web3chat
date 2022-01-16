@@ -56,7 +56,9 @@ const Quiz: React.FunctionComponent = () => {
   }, [currentQuestion?.correctAnswer, selectedAnswer, toast]);
 
   const fetchQuestions = useCallback(async () => {
-    setIsLoading(true);
+    if (!currentQuestion) {
+      setIsLoading(true);
+    }
     const res = await instance.get<OpenTDBResponse>('/', { params: { amount: NUMBER_OF_QUESTIONS } });
     const newQuestions: Question[] = res.data.results.map((result) => {
       const answers = shuffleArray([result.correct_answer, ...result.incorrect_answers]);
@@ -69,12 +71,9 @@ const Quiz: React.FunctionComponent = () => {
         correctAnswer,
       };
     });
-    setQuestions(newQuestions);
-    setCurrentQuestion(newQuestions[0]);
-    setCurrentQuestionIndex(0);
-    setAnswersColors(new Array(newQuestions[0].answers.length).fill('blackAlpha'));
+    setQuestions((questions) => [...questions, ...newQuestions]);
     setIsLoading(false);
-  }, []);
+  }, [currentQuestion]);
 
   useEffect(() => {
     fetchQuestions();
@@ -88,10 +87,9 @@ const Quiz: React.FunctionComponent = () => {
 
   useEffect(() => {
     resetState();
-    if (currentQuestionIndex === NUMBER_OF_QUESTIONS - 1) {
+    setCurrentQuestion(questions[currentQuestionIndex]);
+    if (currentQuestionIndex === questions.length - 1) {
       fetchQuestions();
-    } else if (currentQuestionIndex > 0) {
-      setCurrentQuestion(questions[currentQuestionIndex]);
     }
   }, [currentQuestionIndex, fetchQuestions, questions, resetState]);
 
@@ -132,7 +130,7 @@ const Quiz: React.FunctionComponent = () => {
             variant="solid"
             colorScheme="blue"
             onClick={onClickCheckAnswer}
-            disabled={selectedAnswer === null}
+            disabled={selectedAnswer === null || disableButtons}
           />
         </>
       )}
