@@ -30,6 +30,8 @@ interface Props {
   myAddress: string | undefined;
 }
 
+const LIMIT = 50;
+
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState<string>('');
@@ -53,7 +55,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
       graphqlOperation(getChat, {
         id: chatID,
         messagesSortDirection: 'DESC',
-        messagesLimit: 50,
+        messagesLimit: LIMIT,
         messagesNextToken: nextToken.current || null,
       }),
     )) as GraphQLResult<GetChatQuery>;
