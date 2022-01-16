@@ -19,7 +19,7 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { ConnectWallet } from '@3rdweb/react';
 import ChatLogo from '../../public/chat_logo.svg';
-import QuizLogo from '../../public/quiz_logo.svg';
+import QuizLogo from '../../public/quiz_logo_1.svg';
 import { AccountContext } from '../contexts/Account';
 
 const Links = [
