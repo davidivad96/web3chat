@@ -7,7 +7,7 @@ import { AccountContext } from '../contexts/Account';
 
 const Chat: React.FunctionComponent = () => {
   const {
-    account: { address: myAddress },
+    account: { address: myAddress, avatarUrl: myAvatarUrl },
   } = useContext(AccountContext);
   const [currentChat, setCurrentChat] = useState<string>('');
 
@@ -18,7 +18,7 @@ const Chat: React.FunctionComponent = () => {
       <Navbar page="chat" />
       <SimpleGrid columns={2}>
         <ChatsList myAddress={myAddress} updateCurrentChat={updateCurrentChat} />
-        <CurrentChat chatID={currentChat} myAddress={myAddress} />
+        <CurrentChat chatID={currentChat} myAddress={myAddress} myAvatarUrl={myAvatarUrl} />
       </SimpleGrid>
     </>
   );

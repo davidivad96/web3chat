@@ -16,6 +16,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { v4 as uuidv4 } from 'uuid';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import { getChat } from '../graphql_custom/queries';
@@ -28,11 +29,12 @@ import Observable from 'zen-observable';
 interface Props {
   chatID: string;
   myAddress: string | undefined;
+  myAvatarUrl: string | undefined;
 }
 
 const LIMIT = 50;
 
-const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
+const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -43,12 +45,23 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
 
   const onClickSendMessage = useCallback(async () => {
     if (text) {
+      setMessages((messages) => [
+        ...messages,
+        {
+          id: uuidv4(),
+          content: text,
+          sender: {
+            address: myAddress,
+            avatarUrl: myAvatarUrl,
+          },
+        },
+      ]);
+      setText('');
       (await API.graphql(
         graphqlOperation(createMessage, { input: { chatID, accountID: myAddress, content: text } }),
       )) as GraphQLResult<CreateMessageMutation>;
-      setText('');
     }
-  }, [text, chatID, myAddress]);
+  }, [text, chatID, myAddress, myAvatarUrl]);
 
   const fetchCurrentChat = useCallback(async () => {
     const { data: getChatData } = (await API.graphql(
@@ -99,21 +112,23 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress }) => {
       ).subscribe({
         next: ({ value: { data } }) => {
           const newMessage = data.onCreateMessage;
-          setMessages((messages) => [
-            ...messages,
-            {
-              id: newMessage?.id,
-              content: newMessage?.content,
-              sender: {
-                address: newMessage?.account?.id,
-                avatarUrl: newMessage?.account?.avatarUrl,
+          if (newMessage?.account?.id !== myAddress) {
+            setMessages((messages) => [
+              ...messages,
+              {
+                id: newMessage?.id,
+                content: newMessage?.content,
+                sender: {
+                  address: newMessage?.account?.id,
+                  avatarUrl: newMessage?.account?.avatarUrl,
+                },
               },
-            },
-          ]);
+            ]);
+          }
         },
         error: (error) => console.log({ error }),
       }),
-    [chatID],
+    [chatID, myAddress],
   );
 
   const resetState = useCallback(() => {
