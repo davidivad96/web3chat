@@ -11,7 +11,7 @@ import { AccountProvider } from './contexts/Account';
 
 Amplify.configure(awsExports);
 
-const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
+const supportedChainIds = [80001];
 const connectors: Partial<ConnectorOptions> = {
   injected: {},
 };
