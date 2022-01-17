@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Button, Center, Heading, IconButton, SimpleGrid, Text, useToast, VStack } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -29,6 +29,7 @@ const Quiz: React.FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [disableButtons, setDisableButtons] = useState<boolean>(false);
   const [answersColors, setAnswersColors] = useState<string[]>([]);
+  const accumulatedAmount = useRef<number>(0);
 
   const updateSelectedAnswer = useCallback((answerIndex: number) => {
     setSelectedAnswer(answerIndex);
@@ -50,9 +51,10 @@ const Quiz: React.FunctionComponent = () => {
   }, []);
 
   const mintTokens = useCallback(async () => {
-    if (token && myAddress) {
-      const amount = ethers.utils.parseUnits(TOKENS_REWARD.toString(), 18);
+    if (token && myAddress && accumulatedAmount.current > 0) {
+      const amount = ethers.utils.parseUnits(accumulatedAmount.current.toString(), 18);
       token.mintTo(myAddress, amount);
+      accumulatedAmount.current = 0;
     }
   }, [token, myAddress]);
 
@@ -70,7 +72,7 @@ const Quiz: React.FunctionComponent = () => {
       return newAnswersColors;
     });
     if (isCorrect) {
-      mintTokens();
+      accumulatedAmount.current = accumulatedAmount.current + TOKENS_REWARD;
     }
     const title = isCorrect
       ? `That's correct! You've earned ${TOKENS_REWARD} Davidcoins`
@@ -83,12 +85,10 @@ const Quiz: React.FunctionComponent = () => {
       duration: 2000,
       onCloseComplete: () => setCurrentQuestionIndex((currentQuestionIndex) => currentQuestionIndex + 1),
     });
-  }, [currentQuestion?.correctAnswer, mintTokens, selectedAnswer, toast]);
+  }, [currentQuestion?.correctAnswer, selectedAnswer, toast]);
 
   const fetchQuestions = useCallback(async () => {
-    if (!currentQuestion) {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
     const res = await instance.get<OpenTDBResponse>('/', { params: { amount: NUMBER_OF_QUESTIONS } });
     const newQuestions: Question[] = res.data.results.map((result) => {
       const answers = shuffleArray([result.correct_answer, ...result.incorrect_answers]);
@@ -103,11 +103,19 @@ const Quiz: React.FunctionComponent = () => {
     });
     setQuestions((questions) => [...questions, ...newQuestions]);
     setIsLoading(false);
-  }, [currentQuestion]);
+  }, []);
 
   useEffect(() => {
     fetchQuestions();
   }, [fetchQuestions]);
+
+  useEffect(() => {
+    const intervalID = setInterval(() => mintTokens(), 10000);
+    return () => {
+      mintTokens();
+      clearInterval(intervalID);
+    };
+  }, [mintTokens]);
 
   const resetState = useCallback(() => {
     setSelectedAnswer(null);
@@ -126,7 +134,7 @@ const Quiz: React.FunctionComponent = () => {
   return (
     <Box bg="#dedede" h="full" borderRadius={3}>
       <Navbar page="quiz" />
-      {isLoading ? (
+      {isLoading && !currentQuestion ? (
         <Center h="full">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
