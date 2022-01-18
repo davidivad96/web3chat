@@ -3,7 +3,6 @@ import {
   Avatar,
   Center,
   Flex,
-  Heading,
   HStack,
   IconButton,
   Input,
@@ -152,11 +151,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
 
   return (
     <>
-      {!chatID ? (
-        <Center>
-          <Heading>No current chat</Heading>
-        </Center>
-      ) : isLoading ? (
+      {isLoading ? (
         <Center mt="12">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>

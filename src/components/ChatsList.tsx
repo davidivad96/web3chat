@@ -93,28 +93,37 @@ const ChatsList: React.FunctionComponent<Props> = ({ myAddress, updateCurrentCha
             top="2"
             right="8"
           />
-          <Heading>Your chats</Heading>
-          <VStack>
-            {chats.map((chat) => (
-              <Button
-                key={chat.id}
-                bg="#FFF"
-                borderRadius="5"
-                px="5"
-                py="6"
-                onClick={() => chat.id && updateCurrentChat(chat.id)}
-              >
-                <Flex direction="row" align="center">
-                  <Box>
-                    {chat.participants?.map((participant) => (
-                      <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
-                    ))}
-                  </Box>
-                  <Text ml="3">{chat.name}</Text>
-                </Flex>
-              </Button>
-            ))}
-          </VStack>
+          {!chats.length ? (
+            <>
+              <Text>{"You don't have chats at the moment :("}</Text>
+              <Text>Create a new chat by clicking the button on the top right to start</Text>
+            </>
+          ) : (
+            <>
+              <Heading>Your chats</Heading>
+              <VStack>
+                {chats.map((chat) => (
+                  <Button
+                    key={chat.id}
+                    bg="#FFF"
+                    borderRadius="5"
+                    px="5"
+                    py="6"
+                    onClick={() => chat.id && updateCurrentChat(chat.id)}
+                  >
+                    <Flex direction="row" align="center">
+                      <Box>
+                        {chat.participants?.map((participant) => (
+                          <Avatar key={participant.address} size="sm" src={participant.avatarUrl} />
+                        ))}
+                      </Box>
+                      <Text ml="3">{chat.name}</Text>
+                    </Flex>
+                  </Button>
+                ))}
+              </VStack>
+            </>
+          )}
         </VStack>
       )}
       <CreateChatModal isOpen={isOpen} onClose={onClose} />

@@ -1,9 +1,12 @@
 import { useState, useCallback, useContext } from 'react';
-import { SimpleGrid } from '@chakra-ui/react';
+import { Box, BoxProps, Flex } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import ChatsList from '../components/ChatsList';
 import CurrentChat from '../components/CurrentChat';
 import { AccountContext } from '../contexts/Account';
+
+const MotionBox = motion<BoxProps>(Box);
 
 const Chat: React.FunctionComponent = () => {
   const {
@@ -16,10 +19,14 @@ const Chat: React.FunctionComponent = () => {
   return (
     <>
       <Navbar page="chat" />
-      <SimpleGrid columns={2}>
-        <ChatsList myAddress={myAddress} updateCurrentChat={updateCurrentChat} />
-        <CurrentChat chatID={currentChat} myAddress={myAddress} myAvatarUrl={myAvatarUrl} />
-      </SimpleGrid>
+      <Flex>
+        <MotionBox w="100%" animate={{ width: !!currentChat ? '50%' : '100%' }}>
+          <ChatsList myAddress={myAddress} updateCurrentChat={updateCurrentChat} />
+        </MotionBox>
+        <MotionBox w="0" animate={{ width: !!currentChat ? '50%' : '0' }} opacity={!!currentChat ? 1 : 0}>
+          <CurrentChat chatID={currentChat} myAddress={myAddress} myAvatarUrl={myAvatarUrl} />
+        </MotionBox>
+      </Flex>
     </>
   );
 };
