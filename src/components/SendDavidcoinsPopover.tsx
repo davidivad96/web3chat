@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Button,
   NumberDecrementStepper,
@@ -16,9 +16,7 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react';
-import { ThirdwebSDK } from '@3rdweb/sdk';
-import { ethers } from 'ethers';
-import CONFIG from '../config';
+import { transferTokensFromTo } from '../utils/web3';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -37,24 +35,13 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ children, myAdd
     setValue(0);
   }, []);
 
-  const token = useMemo(() => {
-    const sdk = new ThirdwebSDK(
-      new ethers.Wallet(
-        CONFIG.PRIVATE_KEY as string,
-        ethers.providers.getDefaultProvider('https://rpc-mumbai.maticvigil.com/'),
-      ),
-    );
-    return sdk ? sdk.getTokenModule('0xA2cFC4Aec4c03aDF1074aF3d9839C97EEA09D86b') : undefined;
-  }, []);
-
   const onClickSend = useCallback(() => {
-    if (token && myAddress && toAddress && value > 0) {
+    if (myAddress && toAddress && value > 0) {
       console.log('SENDING ', value, ' DAVIDCOINS FROM ', myAddress, ' TO: ', toAddress);
-      const amount = ethers.utils.parseUnits(value.toString(), 18);
-      token.transferFrom(myAddress, toAddress, amount);
+      transferTokensFromTo(myAddress, toAddress, value.toString());
       resetState();
     }
-  }, [myAddress, resetState, toAddress, token, value]);
+  }, [myAddress, resetState, toAddress, value]);
 
   return (
     <Popover placement="right" onClose={resetState}>

@@ -1,16 +1,14 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Box, Button, Center, Heading, IconButton, SimpleGrid, Text, useToast, VStack } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import axios from 'axios';
-import { ThirdwebSDK } from '@3rdweb/sdk';
-import { ethers } from 'ethers';
 import he from 'he';
 import Navbar from '../components/Navbar';
 import { AccountContext } from '../contexts/Account';
 import { OpenTDBResponse, Question } from '../interfaces';
 import { shuffleArray } from '../utils/functions';
-import CONFIG from '../config';
+import { mintTokensTo } from '../utils/web3';
 
 const NUMBER_OF_QUESTIONS = 10;
 const TOKENS_REWARD = 15;
@@ -40,23 +38,12 @@ const Quiz: React.FunctionComponent = () => {
     });
   }, []);
 
-  const token = useMemo(() => {
-    const sdk = new ThirdwebSDK(
-      new ethers.Wallet(
-        CONFIG.PRIVATE_KEY as string,
-        ethers.providers.getDefaultProvider('https://rpc-mumbai.maticvigil.com/'),
-      ),
-    );
-    return sdk ? sdk.getTokenModule('0xA2cFC4Aec4c03aDF1074aF3d9839C97EEA09D86b') : undefined;
-  }, []);
-
   const mintTokens = useCallback(async () => {
-    if (token && myAddress && accumulatedAmount.current > 0) {
-      const amount = ethers.utils.parseUnits(accumulatedAmount.current.toString(), 18);
-      token.mintTo(myAddress, amount);
+    if (myAddress && accumulatedAmount.current > 0) {
+      mintTokensTo(myAddress, accumulatedAmount.current.toString());
       accumulatedAmount.current = 0;
     }
-  }, [token, myAddress]);
+  }, [myAddress]);
 
   const onClickCheckAnswer = useCallback(() => {
     setDisableButtons(true);
