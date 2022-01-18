@@ -1,12 +1,10 @@
 import { useState, useCallback, useContext } from 'react';
-import { Box, BoxProps, Flex } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Flex } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 import ChatsList from '../components/ChatsList';
 import CurrentChat from '../components/CurrentChat';
+import MotionBox from '../components/MotionBox';
 import { AccountContext } from '../contexts/Account';
-
-const MotionBox = motion<BoxProps>(Box);
 
 const Chat: React.FunctionComponent = () => {
   const {

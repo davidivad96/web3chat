@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import {
   Avatar,
+  Box,
   Center,
   Flex,
   HStack,
@@ -10,6 +11,7 @@ import {
   InputRightElement,
   Tag,
   Text,
+  Tooltip,
   VStack,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
@@ -24,6 +26,8 @@ import { createMessage } from '../graphql/mutations';
 import { CreateMessageMutation, GetChatQuery, OnCreateMessageSubscription } from '../API';
 import { GraphQLSubscription, Message } from '../interfaces';
 import Observable from 'zen-observable';
+import MotionBox from './MotionBox';
+import SendDavidcoinsPopover from './SendDavidcoinsPopover';
 
 interface Props {
   chatID: string;
@@ -185,16 +189,49 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
             style={{ display: 'flex', flexDirection: 'column-reverse' }}
           >
             <VStack p="4" w="full">
-              {messages.map((message) => (
-                <HStack
-                  key={message.id}
-                  alignSelf={message.sender?.address === myAddress ? 'flex-end' : 'flex-start'}
-                  flexDir={message.sender?.address === myAddress ? 'row' : 'row-reverse'}
-                >
-                  <Avatar src={message.sender?.avatarUrl} bg="transparent" mx="2" size="sm" zIndex={0} />
-                  <Tag p="3">{message.content}</Tag>
-                </HStack>
-              ))}
+              {messages.map((message) =>
+                message.sender?.address === myAddress ? (
+                  <HStack
+                    key={message.id}
+                    alignSelf={message.sender?.address === myAddress ? 'flex-end' : 'flex-start'}
+                    flexDir={message.sender?.address === myAddress ? 'row' : 'row-reverse'}
+                  >
+                    <Box>
+                      <Avatar
+                        src={message.sender?.avatarUrl}
+                        bg="transparent"
+                        mx="2"
+                        size="sm"
+                        cursor="pointer"
+                        zIndex={0}
+                      />
+                    </Box>
+                    <Tag p="3">{message.content}</Tag>
+                  </HStack>
+                ) : (
+                  <HStack
+                    key={message.id}
+                    alignSelf={message.sender?.address === myAddress ? 'flex-end' : 'flex-start'}
+                    flexDir={message.sender?.address === myAddress ? 'row' : 'row-reverse'}
+                  >
+                    <SendDavidcoinsPopover myAddress={myAddress} toAddress={message.sender?.address}>
+                      <MotionBox whileHover={{ scale: 1.5 }}>
+                        <Tooltip label="Click to send Davidcoins" placement="right">
+                          <Avatar
+                            src={message.sender?.avatarUrl}
+                            bg="transparent"
+                            mx="2"
+                            size="sm"
+                            cursor="pointer"
+                            zIndex={0}
+                          />
+                        </Tooltip>
+                      </MotionBox>
+                    </SendDavidcoinsPopover>
+                    <Tag p="3">{message.content}</Tag>
+                  </HStack>
+                ),
+              )}
             </VStack>
           </InfiniteScroll>
         </Flex>
