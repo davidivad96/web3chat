@@ -10,12 +10,12 @@ const defaultSdk = new ThirdwebSDK(
 );
 const defaultToken = defaultSdk.getTokenModule(CONFIG.TOKEN_CONTRACT_ADDRESS || '');
 
-export const mintTokensTo = (to: string, value: string) => {
-  defaultToken.mintTo(to, ethers.utils.parseUnits(value, 18));
+export const mintTokensTo = async (to: string, value: string) => {
+  return defaultToken.mintTo(to, ethers.utils.parseUnits(value, 18));
 };
 
-export const transferTokensFromTo = (provider: ValidProviderInput, to: string, value: string) => {
+export const transferTokensFromTo = async (provider: ValidProviderInput, to: string, value: string) => {
   const sdk = new ThirdwebSDK(provider);
   const token = sdk.getTokenModule(CONFIG.TOKEN_CONTRACT_ADDRESS || '');
-  token.transfer(to, ethers.utils.parseUnits(value, 18));
+  return token.transfer(to, ethers.utils.parseUnits(value, 18));
 };

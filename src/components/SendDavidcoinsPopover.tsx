@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
   Portal,
   Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 import { useWeb3 } from '@3rdweb/hooks';
 import { transferTokensFromTo } from '../utils/web3';
@@ -30,6 +31,7 @@ interface Props {
 
 const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAddress, avatarUrl }) => {
   const { provider } = useWeb3();
+  const toast = useToast();
   const [value, setValue] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -39,20 +41,32 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAd
 
   const resetState = useCallback(() => {
     setTimeout(() => {
-      setValue(0);
       setIsOpen(false);
-    }, 1500);
+      setValue(0);
+    }, 750);
   }, []);
 
   const onClickSend = useCallback(() => {
     if (myAddress && toAddress && value > 0) {
       const signer = provider?.getSigner();
       if (signer) {
-        transferTokensFromTo(signer, toAddress, value.toString());
+        transferTokensFromTo(signer, toAddress, value.toString()).catch((err) => {
+          const { message } = err?.data;
+          const notEnoughTokens = message?.includes('transfer amount exceeds balance');
+          const title = notEnoughTokens ? "Transaction failed: you don't have enough Davidcoins" : message;
+          const description = notEnoughTokens ? 'You can answer questions in the Quiz to earn some ;)' : '';
+          toast({
+            title,
+            description,
+            position: 'top',
+            status: 'error',
+            duration: 3500,
+          });
+        });
       }
       resetState();
     }
-  }, [myAddress, provider, resetState, toAddress, value]);
+  }, [myAddress, provider, resetState, toAddress, toast, value]);
 
   return (
     <Popover placement="right" onClose={resetState} isOpen={isOpen}>
