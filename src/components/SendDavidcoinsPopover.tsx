@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import {
+  Avatar,
   Button,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -15,37 +16,53 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Tooltip,
 } from '@chakra-ui/react';
+import { useWeb3 } from '@3rdweb/hooks';
 import { transferTokensFromTo } from '../utils/web3';
+import MotionBox from './MotionBox';
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
   myAddress: string | undefined;
   toAddress: string | undefined;
+  avatarUrl: string | undefined;
 }
 
-const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ children, myAddress, toAddress }) => {
+const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAddress, avatarUrl }) => {
+  const { provider } = useWeb3();
   const [value, setValue] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const updateAmount = useCallback((value: string) => {
     setValue(Number(value));
   }, []);
 
   const resetState = useCallback(() => {
-    setValue(0);
+    setTimeout(() => {
+      setValue(0);
+      setIsOpen(false);
+    }, 1500);
   }, []);
 
   const onClickSend = useCallback(() => {
     if (myAddress && toAddress && value > 0) {
-      console.log('SENDING ', value, ' DAVIDCOINS FROM ', myAddress, ' TO: ', toAddress);
-      transferTokensFromTo(myAddress, toAddress, value.toString());
+      const signer = provider?.getSigner();
+      if (signer) {
+        transferTokensFromTo(signer, toAddress, value.toString());
+      }
       resetState();
     }
-  }, [myAddress, resetState, toAddress, value]);
+  }, [myAddress, provider, resetState, toAddress, value]);
 
   return (
-    <Popover placement="right" onClose={resetState}>
-      <PopoverTrigger>{children}</PopoverTrigger>
+    <Popover placement="right" onClose={resetState} isOpen={isOpen}>
+      <PopoverTrigger>
+        <MotionBox whileHover={{ scale: 1.5 }} onClick={() => setIsOpen(true)}>
+          <Tooltip label="Click to send Davidcoins" placement="right">
+            <Avatar src={avatarUrl} bg="transparent" mx="2" size="sm" cursor="pointer" zIndex={0} />
+          </Tooltip>
+        </MotionBox>
+      </PopoverTrigger>
       <Portal>
         <PopoverContent>
           <PopoverArrow />
