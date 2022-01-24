@@ -1,16 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import {
-  Avatar,
-  Box,
-  Center,
-  Flex,
-  HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Tag,
-} from '@chakra-ui/react';
+import { Center, Flex, IconButton, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { Virtuoso } from 'react-virtuoso';
@@ -21,9 +10,9 @@ import { getChat } from '../graphql_custom/queries';
 import { onCreateMessage } from '../graphql/subscriptions';
 import { createMessage } from '../graphql/mutations';
 import { GetChatQuery, OnCreateMessageSubscription } from '../API';
-import { GraphQLSubscription, Message } from '../interfaces';
+import { GraphQLSubscription, Message as MessageInterface } from '../interfaces';
 import Observable from 'zen-observable';
-import SendDavidcoinsPopover from './SendDavidcoinsPopover';
+import Message from './Message';
 
 interface Props {
   chatID: string;
@@ -35,7 +24,7 @@ const LIMIT = 50;
 const START_INDEX = 10000;
 
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [firstItemIndex, setFirstItemIndex] = useState<number>(START_INDEX);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -177,32 +166,9 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
             overscan={2000}
             alignToBottom
             followOutput="smooth"
-            itemContent={(_index, message) =>
-              message.sender?.address === myAddress ? (
-                <HStack key={message.id} alignSelf="flex-end" flexDir="row-reverse" py="1">
-                  <Box>
-                    <Avatar
-                      src={message.sender?.avatarUrl}
-                      bg="transparent"
-                      mx="2"
-                      size="sm"
-                      cursor="pointer"
-                      zIndex={0}
-                    />
-                  </Box>
-                  <Tag p="3">{message.content}</Tag>
-                </HStack>
-              ) : (
-                <HStack key={message.id} alignSelf="flex-end" flexDir="row" py="1">
-                  <SendDavidcoinsPopover
-                    myAddress={myAddress}
-                    toAddress={message.sender?.address}
-                    avatarUrl={message.sender?.avatarUrl}
-                  />
-                  <Tag p="3">{message.content}</Tag>
-                </HStack>
-              )
-            }
+            itemContent={(_index, message) => (
+              <Message isMyMessage={message.sender?.address === myAddress} message={message} myAddress={myAddress} />
+            )}
           />
         </Flex>
       )}
