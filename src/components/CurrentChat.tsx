@@ -36,32 +36,30 @@ const START_INDEX = 10000;
 
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [firstItemIndex, setFirstItemIndex] = useState<number>(START_INDEX);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const nextToken = useRef<string>('');
-  const firstFetch = useRef<boolean>(true);
-
-  const updateText = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => setText(evt.target.value), []);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickSendMessage = useCallback(async () => {
-    if (text) {
+    if (inputRef.current?.value) {
+      const content = inputRef.current.value;
       setMessages((messages) => [
         ...messages,
         {
           id: uuidv4(),
-          content: text,
+          content,
           sender: {
             address: myAddress,
             avatarUrl: myAvatarUrl,
           },
         },
       ]);
-      setText('');
-      await API.graphql(graphqlOperation(createMessage, { input: { chatID, accountID: myAddress, content: text } }));
+      inputRef.current.value = '';
+      await API.graphql(graphqlOperation(createMessage, { input: { chatID, accountID: myAddress, content } }));
     }
-  }, [text, chatID, myAddress, myAvatarUrl]);
+  }, [chatID, myAddress, myAvatarUrl]);
 
   const fetchCurrentChat = useCallback(async () => {
     const { data: getChatData } = (await API.graphql(
@@ -134,11 +132,9 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
 
   const resetState = useCallback(() => {
     setMessages([]);
-    setText('');
     setIsLoading(true);
     setHasMore(true);
     nextToken.current = '';
-    firstFetch.current = true;
   }, []);
 
   useEffect(() => {
@@ -161,7 +157,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
       ) : (
         <Flex flexDir="column-reverse" h="calc(100vh - 75px)" overflowY="scroll">
           <InputGroup bg="#FFF" minH="45" borderColor="#2298B4" zIndex={1}>
-            <Input value={text} onChange={updateText} onKeyPress={handleKeyPress} pos="fixed" />
+            <Input onKeyPress={handleKeyPress} pos="fixed" ref={inputRef} />
             <InputRightElement>
               <IconButton
                 aria-label="Send Message"
@@ -178,7 +174,8 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
             initialTopMostItemIndex={LIMIT}
             data={messages}
             startReached={hasMore ? fetchCurrentChat : undefined}
-            overscan={1500}
+            overscan={2000}
+            alignToBottom
             followOutput="smooth"
             itemContent={(_index, message) =>
               message.sender?.address === myAddress ? (

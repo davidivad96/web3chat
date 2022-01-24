@@ -40,10 +40,12 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAd
   }, []);
 
   const resetState = useCallback(() => {
-    setTimeout(() => {
-      setIsOpen(false);
-      setValue(0);
-    }, 750);
+    setIsOpen(false);
+    setValue(0);
+  }, []);
+
+  const onOpen = useCallback(() => {
+    () => setIsOpen(true);
   }, []);
 
   const onClickSend = useCallback(() => {
@@ -71,7 +73,7 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAd
   return (
     <Popover placement="right" onClose={resetState} isOpen={isOpen}>
       <PopoverTrigger>
-        <MotionBox whileHover={{ scale: 1.5 }} onClick={() => setIsOpen(true)}>
+        <MotionBox whileHover={{ scale: 1.5 }} onClick={onOpen}>
           <Tooltip label="Click to send Davidcoins" placement="right">
             <Avatar src={avatarUrl} bg="transparent" mx="2" size="sm" cursor="pointer" zIndex={0} />
           </Tooltip>
