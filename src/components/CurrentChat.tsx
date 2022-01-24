@@ -10,19 +10,17 @@ import {
   InputGroup,
   InputRightElement,
   Tag,
-  Text,
-  VStack,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { Virtuoso } from 'react-virtuoso';
 import { v4 as uuidv4 } from 'uuid';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import { getChat } from '../graphql_custom/queries';
 import { onCreateMessage } from '../graphql/subscriptions';
 import { createMessage } from '../graphql/mutations';
-import { CreateMessageMutation, GetChatQuery, OnCreateMessageSubscription } from '../API';
+import { GetChatQuery, OnCreateMessageSubscription } from '../API';
 import { GraphQLSubscription, Message } from '../interfaces';
 import Observable from 'zen-observable';
 import SendDavidcoinsPopover from './SendDavidcoinsPopover';
@@ -34,13 +32,16 @@ interface Props {
 }
 
 const LIMIT = 50;
+const START_INDEX = 10000;
 
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [firstItemIndex, setFirstItemIndex] = useState<number>(START_INDEX);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const nextToken = useRef<string>('');
+  const firstFetch = useRef<boolean>(true);
 
   const updateText = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => setText(evt.target.value), []);
 
@@ -58,9 +59,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
         },
       ]);
       setText('');
-      (await API.graphql(
-        graphqlOperation(createMessage, { input: { chatID, accountID: myAddress, content: text } }),
-      )) as GraphQLResult<CreateMessageMutation>;
+      await API.graphql(graphqlOperation(createMessage, { input: { chatID, accountID: myAddress, content: text } }));
     }
   }, [text, chatID, myAddress, myAvatarUrl]);
 
@@ -88,6 +87,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
           .reverse(),
         ...messages,
       ]);
+      setFirstItemIndex((firstItemIndex) => firstItemIndex - items.length);
     }
     const newNextToken = getChatData?.getChat?.messages?.nextToken;
     nextToken.current = newNextToken || '';
@@ -138,6 +138,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
     setIsLoading(true);
     setHasMore(true);
     nextToken.current = '';
+    firstFetch.current = true;
   }, []);
 
   useEffect(() => {
@@ -158,7 +159,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
       ) : (
-        <Flex id="scrollabeContainer" flexDir="column-reverse" h="calc(100vh - 75px)" overflowY="scroll">
+        <Flex flexDir="column-reverse" h="calc(100vh - 75px)" overflowY="scroll">
           <InputGroup bg="#FFF" minH="45" borderColor="#2298B4" zIndex={1}>
             <Input value={text} onChange={updateText} onKeyPress={handleKeyPress} pos="fixed" />
             <InputRightElement>
@@ -172,49 +173,40 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
               />
             </InputRightElement>
           </InputGroup>
-          <InfiniteScroll
-            inverse
-            dataLength={messages.length}
-            next={fetchCurrentChat}
-            hasMore={hasMore}
-            loader={
-              <Center>
-                <Text>...</Text>
-              </Center>
-            }
-            scrollThreshold={0.8}
-            scrollableTarget="scrollabeContainer"
-            style={{ display: 'flex', flexDirection: 'column-reverse' }}
-          >
-            <VStack p="4" w="full">
-              {messages.map((message) =>
-                message.sender?.address === myAddress ? (
-                  <HStack key={message.id} alignSelf="flex-end" flexDir="row">
-                    <Box>
-                      <Avatar
-                        src={message.sender?.avatarUrl}
-                        bg="transparent"
-                        mx="2"
-                        size="sm"
-                        cursor="pointer"
-                        zIndex={0}
-                      />
-                    </Box>
-                    <Tag p="3">{message.content}</Tag>
-                  </HStack>
-                ) : (
-                  <HStack key={message.id} alignSelf="flex-start" flexDir="row-reverse">
-                    <SendDavidcoinsPopover
-                      myAddress={myAddress}
-                      toAddress={message.sender?.address}
-                      avatarUrl={message.sender?.avatarUrl}
+          <Virtuoso
+            firstItemIndex={firstItemIndex}
+            initialTopMostItemIndex={LIMIT}
+            data={messages}
+            startReached={hasMore ? fetchCurrentChat : undefined}
+            overscan={1500}
+            followOutput="smooth"
+            itemContent={(_index, message) =>
+              message.sender?.address === myAddress ? (
+                <HStack key={message.id} alignSelf="flex-end" flexDir="row-reverse" py="1">
+                  <Box>
+                    <Avatar
+                      src={message.sender?.avatarUrl}
+                      bg="transparent"
+                      mx="2"
+                      size="sm"
+                      cursor="pointer"
+                      zIndex={0}
                     />
-                    <Tag p="3">{message.content}</Tag>
-                  </HStack>
-                ),
-              )}
-            </VStack>
-          </InfiniteScroll>
+                  </Box>
+                  <Tag p="3">{message.content}</Tag>
+                </HStack>
+              ) : (
+                <HStack key={message.id} alignSelf="flex-end" flexDir="row" py="1">
+                  <SendDavidcoinsPopover
+                    myAddress={myAddress}
+                    toAddress={message.sender?.address}
+                    avatarUrl={message.sender?.avatarUrl}
+                  />
+                  <Tag p="3">{message.content}</Tag>
+                </HStack>
+              )
+            }
+          />
         </Flex>
       )}
     </>

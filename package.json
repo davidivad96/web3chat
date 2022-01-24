@@ -26,9 +26,9 @@
     "he": "^1.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.2.1",
     "react-spinners": "^0.11.0",
+    "react-virtuoso": "^2.5.0",
     "serve": "^13.0.2",
     "util": "^0.12.4",
     "uuid": "^8.3.2"
