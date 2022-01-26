@@ -45,7 +45,7 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAd
   }, []);
 
   const onOpen = useCallback(() => {
-    () => setIsOpen(true);
+    setIsOpen(true);
   }, []);
 
   const onClickSend = useCallback(() => {
