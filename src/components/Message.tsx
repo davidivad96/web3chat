@@ -17,7 +17,7 @@ const Message: React.FunctionComponent<Props> = ({ isMyMessage, message, myAddre
       <Tag p="3">{message.content}</Tag>
     </HStack>
   ) : (
-    <HStack key={message.id} alignSelf="flex-start" flexDir="row" py="1">
+    <HStack key={message.id} alignSelf="flex-start" flexDir="row-reverse" py="1">
       <SendDavidcoinsPopover
         myAddress={myAddress}
         toAddress={message.sender?.address}
