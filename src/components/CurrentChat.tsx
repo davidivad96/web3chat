@@ -25,7 +25,6 @@ const LIMIT = 50;
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [hasMore, setHasMore] = useState<boolean>(true);
   const nextToken = useRef<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -75,7 +74,6 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
     }
     const newNextToken = getChatData?.getChat?.messages?.nextToken;
     nextToken.current = newNextToken || '';
-    setHasMore(!!nextToken.current);
     setIsLoading(false);
   }, [chatID]);
 
@@ -119,7 +117,6 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
   const resetState = useCallback(() => {
     setMessages([]);
     setIsLoading(true);
-    setHasMore(true);
     nextToken.current = '';
   }, []);
 
@@ -159,7 +156,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
             inverse
             dataLength={messages.length}
             next={fetchCurrentChat}
-            hasMore={hasMore}
+            hasMore={!!nextToken.current}
             loader={
               <Center>
                 <Text>...</Text>
