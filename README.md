@@ -17,3 +17,9 @@ If you want to serve an optimized production build, run:
 `yarn build && yarn serve`
 
 In either case, just open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Backend
+
+The backend for this app has been developed and deployed using [AWS Amplify](https://aws.amazon.com/es/amplify/). It includes a Graphql API using [AppSync](https://aws.amazon.com/es/appsync/) and [DynamoDB](https://aws.amazon.com/es/dynamodb/) as the database solution.
+
+So to make the project work you will have to create and link all these resources.
