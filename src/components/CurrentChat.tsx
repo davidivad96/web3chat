@@ -1,5 +1,15 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Center, Flex, IconButton, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react';
+import {
+  Center,
+  Flex,
+  Heading,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -133,7 +143,11 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
 
   return (
     <>
-      {isLoading ? (
+      {!chatID ? (
+        <Center>
+          <Heading>No current chat</Heading>
+        </Center>
+      ) : isLoading ? (
         <Center mt="12">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
