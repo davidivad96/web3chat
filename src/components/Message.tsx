@@ -10,14 +10,14 @@ interface Props {
 
 const Message: React.FunctionComponent<Props> = ({ isMyMessage, message, myAddress }) =>
   isMyMessage ? (
-    <HStack key={message.id} alignSelf="flex-end" flexDir="row-reverse" py="1">
+    <HStack key={message.id} alignSelf="flex-end" flexDir="row" py="1">
       <Box>
         <Avatar src={message.sender?.avatarUrl} bg="transparent" mx="2" size="sm" cursor="pointer" zIndex={0} />
       </Box>
       <Tag p="3">{message.content}</Tag>
     </HStack>
   ) : (
-    <HStack key={message.id} alignSelf="flex-end" flexDir="row" py="1">
+    <HStack key={message.id} alignSelf="flex-start" flexDir="row" py="1">
       <SendDavidcoinsPopover
         myAddress={myAddress}
         toAddress={message.sender?.address}

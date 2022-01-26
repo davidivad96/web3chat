@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Center, Flex, IconButton, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Center, Flex, IconButton, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { Virtuoso } from 'react-virtuoso';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
@@ -21,12 +21,10 @@ interface Props {
 }
 
 const LIMIT = 50;
-const START_INDEX = 10000;
 
 const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvatarUrl }) => {
   const [messages, setMessages] = useState<MessageInterface[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [firstItemIndex, setFirstItemIndex] = useState<number>(START_INDEX);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const nextToken = useRef<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +72,6 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
           .reverse(),
         ...messages,
       ]);
-      setFirstItemIndex((firstItemIndex) => firstItemIndex - items.length);
     }
     const newNextToken = getChatData?.getChat?.messages?.nextToken;
     nextToken.current = newNextToken || '';
@@ -144,7 +141,7 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
       ) : (
-        <Flex flexDir="column-reverse" h="calc(100vh - 75px)" overflowY="scroll">
+        <Flex id="scrollabeContainer" flexDir="column-reverse" h="calc(100vh - 75px)" overflowY="scroll">
           <InputGroup bg="#FFF" minH="45" borderColor="#2298B4" zIndex={1}>
             <Input onKeyPress={handleKeyPress} pos="fixed" ref={inputRef} />
             <InputRightElement>
@@ -158,18 +155,31 @@ const CurrentChat: React.FunctionComponent<Props> = ({ chatID, myAddress, myAvat
               />
             </InputRightElement>
           </InputGroup>
-          <Virtuoso
-            firstItemIndex={firstItemIndex}
-            initialTopMostItemIndex={LIMIT}
-            data={messages}
-            startReached={hasMore ? fetchCurrentChat : undefined}
-            overscan={2000}
-            alignToBottom
-            followOutput="smooth"
-            itemContent={(_index, message) => (
-              <Message isMyMessage={message.sender?.address === myAddress} message={message} myAddress={myAddress} />
-            )}
-          />
+          <InfiniteScroll
+            inverse
+            dataLength={messages.length}
+            next={fetchCurrentChat}
+            hasMore={hasMore}
+            loader={
+              <Center>
+                <Text>...</Text>
+              </Center>
+            }
+            scrollThreshold={0.8}
+            scrollableTarget="scrollabeContainer"
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+          >
+            <VStack p="4" w="full">
+              {messages.map((message) => (
+                <Message
+                  key={message.id}
+                  isMyMessage={message.sender?.address === myAddress}
+                  message={message}
+                  myAddress={myAddress}
+                />
+              ))}
+            </VStack>
+          </InfiniteScroll>
         </Flex>
       )}
     </>
