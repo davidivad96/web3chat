@@ -10,6 +10,14 @@
       "StackName": "amplify-web3chat-dev-183426",
       "StackId": "arn:aws:cloudformation:eu-west-1:682507345650:stack/amplify-web3chat-dev-183426/e8982de0-73cd-11ec-8120-06ef137e77e5",
       "AmplifyAppId": "d1wpobn5tvqxsw"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1wpobn5tvqxsw",
+          "type": "manual"
+        }
+      }
     }
   }
 }
