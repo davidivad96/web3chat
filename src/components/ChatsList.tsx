@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Avatar, Box, Button, Flex, IconButton, Text, VStack, useDisclosure, Center, Heading } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLResult } from '@aws-amplify/api';
 import { listAccountChats } from '../graphql/queries';
-import { onCreateAccountChat } from '../graphql/subscriptions';
-import { ListAccountChatsQuery, OnCreateAccountChatSubscription } from '../API';
-import { Chat, GraphQLSubscription } from '../interfaces';
+import { ListAccountChatsQuery } from '../API';
+import { Chat } from '../interfaces';
 import CreateChatModal from './CreateChatModal';
-import Observable from 'zen-observable';
 
 interface Props {
   myAddress: string | undefined;
@@ -42,59 +40,32 @@ const ChatsList: React.FunctionComponent<Props> = ({ myAddress, updateCurrentCha
     setIsLoading(false);
   }, [myAddress]);
 
-  const subscribeToNewChats = useCallback(
-    async () =>
-      (
-        (await API.graphql(graphqlOperation(onCreateAccountChat, { accountID: myAddress }))) as Observable<
-          GraphQLSubscription<OnCreateAccountChatSubscription>
-        >
-      ).subscribe({
-        next: ({ value: { data } }) => {
-          const newChat = data.onCreateAccountChat;
-          setChats((chats) => [
-            {
-              id: newChat?.chat?.id,
-              name: newChat?.chat?.name,
-              participants: newChat?.chat?.accounts?.items.map((account) => ({
-                address: account?.account?.id,
-                avatarUrl: account?.account?.avatarUrl,
-              })),
-            },
-            ...chats,
-          ]);
-        },
-        error: (error) => console.log({ error }),
-      }),
-    [myAddress],
-  );
-
   useEffect(() => {
     fetchChats();
-    const subscriptionPromise = subscribeToNewChats();
-    return () => {
-      subscriptionPromise.then((subscription) => subscription.unsubscribe());
-    };
-  }, [fetchChats, subscribeToNewChats]);
+  }, [fetchChats]);
 
   return (
     <Box py="3" bg="#dedede" pos="relative" h="calc(100vh - 75px)" overflowY="scroll">
+      <VStack mb="5">
+        <IconButton
+          aria-label="Create New Chat"
+          icon={<AddIcon />}
+          onClick={onOpen}
+          pos="sticky"
+          alignSelf="end"
+          top="2"
+          right="8"
+        />
+        <Heading>Your chats</Heading>
+        <IconButton aria-label="Refresh chats" icon={<RepeatIcon />} size="lg" onClick={fetchChats} />
+      </VStack>
       {isLoading ? (
         <Center mt="12">
           <ClipLoader loading color="#1A2980" size={150} />
         </Center>
       ) : (
         <VStack>
-          <IconButton
-            aria-label="Create New Chat"
-            icon={<AddIcon />}
-            onClick={onOpen}
-            pos="sticky"
-            alignSelf="end"
-            top="2"
-            right="8"
-          />
           <>
-            <Heading>Your chats</Heading>
             <VStack>
               {chats.map((chat) => (
                 <Button
