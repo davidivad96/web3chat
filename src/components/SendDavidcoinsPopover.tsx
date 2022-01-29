@@ -71,7 +71,7 @@ const SendDavidcoinsPopover: React.FunctionComponent<Props> = ({ myAddress, toAd
   }, [myAddress, provider, resetState, toAddress, toast, value]);
 
   return (
-    <Popover placement="right" onClose={resetState} isOpen={isOpen}>
+    <Popover placement="top" onClose={resetState} isOpen={isOpen}>
       <PopoverTrigger>
         <MotionBox whileHover={{ scale: 1.5 }} onClick={onOpen}>
           <Tooltip label="Click to send Davidcoins" placement="right">
