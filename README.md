@@ -6,6 +6,8 @@ Chat app that uses some [thirdweb](https://thirdweb.com) modules to add web3 cap
 - Token transfer between accounts.
 - Connect a crypto wallet.
 
+Post in Hashnode explaining the project: https://davidivad96.hashnode.dev/introducing-web3chat-a-decentralized-chat-app
+
 ## How to run
 
 In the project directory, execute the following command to start a development server:
